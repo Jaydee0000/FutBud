@@ -1,0 +1,29 @@
+---
+import Header from '../components/Header.astro';
+import LeagueDD from '../components/LeagueDropDownCard.astro';
+import League from '../components/LeagueUpcoming.astro';
+import '../styles/global.css';
+import '../styles/content.css';
+
+const leagues = [
+	"Premier League",
+	"La Liga",
+	"Serie A",
+	"Bundesliga",
+	"Ligue 1"
+];
+---
+
+<Header />
+
+<main class="content">
+	<div class="left-panel">
+		<League/>
+		<LeagueDD/>
+	</div>
+
+
+
+	<div class="middle-panel">Middle</div>
+	<div class="right-panel">Right</div>
+</main>

@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Kadwa:wght@400;700&display=swap');
+
+html,
+body {
+  margin: 0px;
+  padding: 0px 0px;
+  font-family: 'Kadwa', serif;
+}

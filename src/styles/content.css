@@ -1,0 +1,13 @@
+.content{
+    display: grid;
+    grid-template-columns: 350px 1fr 300px;
+    padding: 2px 20px;
+    min-height: calc(100vh - 100px);
+}
+
+.left-panel{
+}
+
+.right-panel{
+    background: blue;
+}

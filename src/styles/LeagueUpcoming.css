@@ -1,0 +1,134 @@
+.League-card{
+    background: white;
+    display: flex; 
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 3px 10px;
+}
+
+.LC-Header:hover{
+    background-color: #cbd2d8;
+}
+
+.LC-Header{
+    background: #f6f8fa;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border: solid 0.5px #dfe2e6;
+    padding: 5px 10px;
+    transition: background-color 0.09s ease;
+}
+
+.LeagueLogo{
+    height: 20px;
+    width: 20px;
+}
+
+.LC-Header.closed{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.LC-title{
+    font-size: 15px;
+    font-weight: Semibold;
+    font-family: 'Kadwa', serif;
+    display: inline flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+
+.LC-Content{
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    box-sizing: border-box;
+    padding: 0px 0px;
+    background: #f6f8fa;    
+    border: solid 0.5px #dfe2e6;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
+}
+
+.LC-game:hover{
+    background-color: #e6e8eb;
+}
+
+.LC-game{
+    box-sizing: border-box;
+    display: inline-flex;
+    width: 100%;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 5px;
+    font-size: 11px;
+    letter-spacing: 0.2px;
+    gap: 10px;
+    transition: background-color 0.09 ease;
+}
+
+
+
+.LC-Content.collapsed{
+    display: none;
+}
+
+.LC-dropdown{
+    transition: transform 0.2s ease;
+    margin-left: auto;
+}
+
+.LC-dropdown.rotated {
+    transform: rotate(-180deg);
+}
+
+.Team1{
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    align-items: center;
+    gap: 3px;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.vs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+}
+
+.Team2{
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+    justify-content: flex-start;
+}
+
+
+
+.team1Logo{
+    height: 20px;
+    width: 20px;
+}
+
+.team2Logo{
+    height: 20px;
+    width: 20px;
+}

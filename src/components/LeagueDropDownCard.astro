@@ -1,0 +1,45 @@
+---
+const leagues = [
+  "Premier League",
+  "La Liga",
+  "Bundesliga",
+  "Serie A",
+  "Ligue 1",
+  "Eredevise"
+];
+
+import '../styles/leagueDD.css';
+import leagueL from '../assets/eplLogo.png'
+---
+
+<div class="LeagueDD-card">
+    <button class="LDD-Header" type="button">
+        <div class="LDD-title">
+            All Other Leagues
+        </div>
+        <div class="LDDdropdown">
+            &#9662;
+        </div>
+    </button>
+    
+    <div class="LDD-Content">
+        {leagues.map((league) => (
+            <div class="league-item"><img class="leagueLogo" src={leagueL.src}/>{league}</div>
+        ))}
+    </div>
+</div>
+
+<script>
+    const header = document.querySelector('.LDD-Header');
+    const content = document.querySelector('.LDD-Content');
+    const arrow = document.querySelector('.LDDdropdown');
+
+    if (header && content && arrow) {
+        header.addEventListener('click', () => {
+            content.classList.toggle('collapsed');
+            header.classList.toggle('closed');
+            arrow.classList.toggle('rotated');
+        });
+    }
+</script>
+

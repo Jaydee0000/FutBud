@@ -1,0 +1,86 @@
+---
+const Leagues = [
+  {
+    title: "Premier League",
+    games: {
+        home: ["Arsenal", "Liverpool", "Manchester United"],
+        away: ["Everton", "Newcastle", "Mancester City"]
+    },
+    team1Logo: "../assets/manCity.png",
+    team2Logo: "../assets/manUnited.png"
+  },
+  {
+    title: "La Liga",
+    games: {
+        home: ["Arsenal", "Liverpool", "Manchester United"],
+        away: ["Everton", "Newcastle", "Mancester City"]
+    },
+    team1Logo: "../assets/manCity.png",
+    team2Logo: "../assets/manUnited.png"
+  },
+  {
+    title: "Serie A",
+    games: {
+        home: ["Arsenal", "Liverpool", "Manchester United"],
+        away: ["Everton", "Newcastle", "Mancester City"]
+    },
+    team1Logo: "../assets/manCity.png",
+    team2Logo: "../assets/manUnited.png"
+  }
+];
+
+import '../styles/LeagueUpcoming.css';
+import manCity from '../assets/manCity.png'
+import manUnited from '../assets/manUnited.png'
+import leagueL from '../assets/eplLogo.png'
+---
+
+{Leagues.map((league) => (
+<div class="League-card">
+    <button class="LC-Header" type="button">
+        <div class="LC-title">
+            <img class="LeagueLogo" src={leagueL.src}/> {league.title}
+        </div>
+        <div class="LC-dropdown">
+            &#9662;
+        </div>
+    </button>
+    
+    <div class="LC-Content">
+        {league.games.home.map((homeTeam, index) => (
+            <div class="LC-game">
+                <div class="Team1">
+                    {homeTeam}<img class="team1Logo" src={manCity.src}/>
+                </div>
+
+                <div class="vs">
+                    vs
+                </div>
+
+                <div class="Team2">
+                    <img class="team2Logo" src={manUnited.src}/>{league.games.away[index]}
+                </div>
+            </div>
+        ))}
+    </div>
+</div>
+))}
+
+<script>
+    const cards = document.querySelectorAll('.League-card');
+
+    cards.forEach((card) => {
+        const header = card.querySelector('.LC-Header');
+        const content = card.querySelector('.LC-Content');
+        const arrow = card.querySelector('.LC-dropdown');
+
+        if(header && content && arrow){
+            header.addEventListener('click', () => {
+                content.classList.toggle('collapsed');
+                header.classList.toggle('closed');
+                arrow.classList.toggle('rotated');
+            });
+        }
+    });
+    
+</script>

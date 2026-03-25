@@ -1,0 +1,84 @@
+.LeagueDD-card{
+    background: white;
+    display: flex; 
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 3px 10px;
+}
+
+.LDD-Header:hover{
+    background-color: #cbd2d8;
+}
+
+.LDD-Header{
+    background: #f6f8fa;
+    display: flex;
+    flex-direction: row;
+    height: 45px;
+    align-items: center;
+    box-sizing: border-box;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border: solid 0.5px #dfe2e6;
+    padding: 5px 10px;
+    transition: background-color 0.09s ease;
+}
+
+.LDD-Header.closed{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.LDD-title{
+    font-size: 15px;
+    font-weight: Semibold;
+    font-family: 'Kadwa', serif;
+}
+
+.LDD-Content{
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    box-sizing: border-box;
+    padding: 0px 0px;
+    background: #f6f8fa;    
+    border: solid 0.5px #dfe2e6;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
+}
+
+.league-item:hover{
+    background-color: #e6e8eb;
+}
+
+.league-item{
+    box-sizing: border-box;
+    display: inline-flex;
+    width: 100%;
+    height: 35px;
+    align-items: center;
+    justify-content: left;
+    font-size: 15px;
+    padding-left: 95px;
+    gap: 10px;
+    transition: background-color 0.09s ease;
+}
+
+.LDD-Content.collapsed{
+    display: none;
+}
+
+.LDDdropdown{
+    transition: transform 0.4s ease;
+    margin-left: auto;
+}
+
+.LDDdropdown.rotated {
+    transform: rotate(180deg);
+}
+
+.leagueLogo{
+    width: 20px;
+    height: 20px;
+}
