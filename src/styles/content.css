@@ -8,6 +8,11 @@
 .left-panel{
 }
 
+.middle-panel{
+    padding: 3px 10px; /* This sets the official padding for all content*/
+    background-color: black;
+}
+
 .right-panel{
     background: blue;
 }

@@ -1,0 +1,29 @@
+.Main-wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: blue;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-sizing: border-box;
+}
+
+.statComp-header{
+    display: inline flex;
+    flex-direction: row;
+    width: 100%; /* spans the entire size of container*/
+    height: 60px;  /* height of header is fixed*/
+    align-items: center;
+    justify-content: center;
+    background-color: orange;
+    font-size: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.statComp-content{
+    border: 1px solid orange;
+    display: flex;
+    flex-direction: column;
+}

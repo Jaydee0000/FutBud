@@ -2,6 +2,8 @@
 import Header from '../components/Header.astro';
 import LeagueDD from '../components/LeagueDropDownCard.astro';
 import League from '../components/LeagueUpcoming.astro';
+import H2hExample from '../components/TeamStatCompare.astro';
+import Gamecard from '../components/teamsh2h.astro';
 import '../styles/global.css';
 import '../styles/content.css';
 
@@ -22,8 +24,9 @@ const leagues = [
 		<LeagueDD/>
 	</div>
 
+	<div class="middle-panel">
+		<H2hExample/>
+	</div>
 
-
-	<div class="middle-panel">Middle</div>
 	<div class="right-panel">Right</div>
 </main>
