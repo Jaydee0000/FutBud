@@ -1,0 +1,25 @@
+.comp-wrap{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.comp-wrap p{
+    margin: 0;
+}
+
+.comp-party1,
+.comp-party2{
+    font-size: 18px;
+}
+
+.comp-stat{
+    display: flex;
+    justify-content: center;
+    padding: 0px 15px;
+    font-size: 18px;
+    width: 175px;
+
+}

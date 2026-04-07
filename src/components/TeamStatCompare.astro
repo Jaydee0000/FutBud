@@ -1,11 +1,12 @@
 ---
 import '../styles/teamStatCompare.css';
 import Gamecard from '../components/teamsh2h.astro';
+import StatComp from '../components/comparison.astro';
 const{
     team1,
     team2,
     title,
-    Competition,
+    competition,
     team1P,
     team2P,
     team1L,
@@ -21,7 +22,7 @@ const{
 
 <div class="Main-wrapper">
     <div class="statComp-header">
-        <h3>{title} - {Competition}</h3>
+        <h3>{title} - {competition}</h3>
     </div>
 
     <div class="statComp-content">
@@ -38,23 +39,43 @@ const{
         />
 
         <div class="Power-Rating">
-
+            <StatComp
+            party1={team1P}
+            party2={team2P}
+            stat="Power-Rating"
+            />
         </div>
 
         <div class="Luck-Rating">
-            1-1
+            <StatComp
+            party1={team1L}
+            party2={team2L}
+            stat="Luck-Rating"
+            />
         </div>
 
         <div class="Probability">
-            1-1
+            <StatComp
+            party1={team1Odd}
+            party2={team2Odd}
+            stat="Probability"
+            />
         </div>
 
         <div class="HA-Form">
-            1-1
+            <StatComp
+            party1={team1HA}
+            party2={team2HA}
+            stat="Home/Away Rating"
+            />
         </div>
 
         <div class="Recent-Rating">
-            1-1
+            <StatComp
+            party1={team1RR}
+            party2={team2RR}
+            stat="Recent-Rating"
+            />
         </div>
 
     </div>

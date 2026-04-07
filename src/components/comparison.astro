@@ -1,0 +1,24 @@
+---
+import '../styles/comparison.css';
+
+const{
+    stat,
+    party1,
+    party2,
+} = Astro.props;
+---
+
+<div class="comp-wrap">
+    <div class="comp-party1">
+        <p>{party1}</p>
+    </div>
+
+    <div class="comp-stat">
+        <p>{stat}</p>
+    </div>
+    
+    <div class="comp-party2">
+        <p>{party2}</p>
+    </div>
+</div>
+
