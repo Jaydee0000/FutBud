@@ -1,0 +1,52 @@
+---
+import '../styles/teamsh2h.css';
+const {
+  homeLogo,
+  homeTeam,
+  homeScore,
+  awayScore,
+  awayTeam,
+  awayLogo,
+  gameDate,
+  gameTime,
+  status
+} = Astro.props;
+---
+
+<div class="game-wrap">
+    <div class="team1">
+        <div class="teamName">
+            <p>{homeTeam}</p>
+        </div>
+        <div class="teamLogo">
+            <img class="logo" src={homeLogo} alt={`${homeTeam} Logo`}/>
+        </div> 
+    </div>
+
+    <div class="h2hvs">
+        {
+            status === "finished" ? (
+                <div class="finished">{homeScore} - {awayScore}</div>
+            ) : status === "live" ? (
+                <div class="live">
+                    <p class="liveIndicator">LIVE</p>
+                    <div class="score">{homeScore} - {awayScore}</div>
+                </div>
+            ) : (
+                <div class="soon">
+                    <p class="date">{gameDate} /</p>
+                    <p class="time">{gameTime}</p>
+                </div>
+            )
+        }
+    </div>
+
+    <div class="team2">
+        <div class="teamLogo">
+            <img class="logo" src={awayLogo} alt={`${awayTeam} Logo`}/>
+        </div> 
+        <div class="teamName">
+            <p>{awayTeam}</p>
+        </div>
+    </div>
+</div>
