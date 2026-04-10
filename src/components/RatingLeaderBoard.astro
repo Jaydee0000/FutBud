@@ -1,0 +1,34 @@
+---
+import '../styles/RatingLB.css';
+import Leaderboard from '../components/Leaderboard.astro';
+
+interface Props {
+  header: string;
+  teams: string[];
+  logos: string[];
+  teamStats: (string | number)[][];
+}
+
+const {
+  header,
+  teams,
+  logos,
+  teamStats
+} = Astro.props;
+---
+
+<div class="R-LB-wrapper">
+  <div class="R-LB-header">
+    <p>{header}</p>
+  </div>
+
+  <div class="R-LB-content">
+    {teams.map((team, index) => (
+      <Leaderboard
+        team={team}
+        teamLogo={logos[index]}
+        teamStats={teamStats[index]}
+      />
+    ))}
+  </div>
+</div>

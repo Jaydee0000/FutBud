@@ -3,6 +3,8 @@ import Header from '../components/Header.astro';
 import LeagueDD from '../components/LeagueDropDownCard.astro';
 import League from '../components/LeagueUpcoming.astro';
 import H2hExample from '../components/TeamStatCompare.astro';
+import LeaderboardRanks from '../components/RatingLeaderBoard.astro';
+
 import Gamecard from '../components/teamsh2h.astro';
 import '../styles/global.css';
 import '../styles/content.css';
@@ -30,18 +32,46 @@ const leagues = [
 		competition="UEFA Champions League"
 		team1="Arsenal"
 		team2="Chelsea"
-		team1P="80%"
-		team2P="80%"
-		team1L="80%"
-		team2L="80%"
-		team1Odd="80%"
-		team2Odd="80%"
-		team1HA="80%"
-		team2HA="80%"
-		team1RR="80%"
-		team2RR="80%"
+		team1P="80"
+		team2P="80"
+		team1L="80"
+		team2L="80"
+		team1Odd="80"
+		team2Odd="80"
+		team1HA="80"
+		team2HA="80"
+		team1RR="80"
+		team2RR="80"
 		/>
+
+		<LeaderboardRanks
+			header="Power Rankings"
+			teams={["Liverpool", "Arsenal", "Man City", "Chelsea", "Manchester United"]}
+			logos={["/manCity.png", "/manUnited.png", "/manCity.png", "/manUnited.png", "/manCity.png"]}
+			teamStats={[
+				[1, 95.2, 2.4, 0.8],
+				[2, 92.7, 2.1, 0.9],
+				[3, 90.5, 2.0, 1.0],
+				[4, 90.2, 1.9, 1.1],
+				[5, 90.0, 1.8, 1.2]
+			]}
+		/>
+
+		<LeaderboardRanks
+			header="Luck Rankings"
+			teams={["Liverpool", "Arsenal", "Man City", "Chelsea", "Manchester United"]}
+			logos={["/manCity.png", "/manUnited.png", "/manCity.png", "/manUnited.png", "/manCity.png"]}
+			teamStats={[
+				[1, 95.2, 2.4, 0.8],
+				[2, 92.7, 2.1, 0.9],
+				[3, 90.5, 2.0, 1.0],
+				[4, 90.2, 1.9, 1.1],
+				[5, 90.0, 1.8, 1.2]
+			]}
+		/>
+
 	</div>
+
 
 	<div class="right-panel">Right</div>
 </main>

@@ -1,0 +1,39 @@
+---
+import '../styles/leaderboard.css';
+
+interface Props {
+  team: string;
+  teamLogo: string;
+  teamStats: (string | number)[];
+}
+
+const {
+  team,
+  teamLogo,
+  teamStats
+} = Astro.props;
+---
+
+<div class="LB-wrapper">
+
+    <div class="LB-position">
+        <p>{teamStats[0]}</p>
+    </div>
+
+    <div class="LB-logo">
+        <img src={teamLogo} alt={`${team} logo`} />
+    </div>
+
+    <div class="LB-team">
+        <p>{team}</p>
+    </div>
+  
+
+  <div class="LB-stats">
+    {teamStats.slice(1).map((stat) => (
+      <div class="statItem">
+        <p>{stat}</p>
+      </div>
+    ))}
+  </div>
+</div>

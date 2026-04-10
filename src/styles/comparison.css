@@ -1,9 +1,9 @@
 .comp-wrap{
     display: flex;
+    justify-content: space-between;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
     gap: 15px;
+    padding: 0 18px;
 }
 
 .comp-wrap p{
@@ -13,6 +13,16 @@
 .comp-party1,
 .comp-party2{
     font-size: 18px;
+}
+
+.comp-party1{
+    display: flex;
+    justify-content: flex-start;
+}
+
+.comp-party2{
+    display: flex;
+    justify-content: flex-end;
 }
 
 .comp-stat{

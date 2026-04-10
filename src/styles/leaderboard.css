@@ -1,0 +1,46 @@
+.LB-wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 5px;
+}
+
+.LB-position{
+    display: flex;
+    justify-content: center;
+    width: 30px;
+    padding: 0 2.5px;
+}
+
+.LB-wrapper p{
+    margin: 0;
+}
+
+.LB-logo{
+    display: flex;
+    align-items: center;
+    width: 35px;
+    padding: 0 2.5px;
+}
+
+.LB-logo img{
+    width: 25px;
+    height: 25px;
+}
+
+.LB-team{
+    width: 100%;
+    padding: 0 2.5px;
+}
+
+.LB-stats{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.statItem{
+    width: 40px;
+    display: flex;
+    justify-content: center;
+}
