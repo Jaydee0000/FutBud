@@ -1,0 +1,50 @@
+---
+import '../styles/table.css';
+import Leaderboard from '../components/Leaderboard.astro';
+
+interface Props{
+    LeagueName: string;
+    teams: string[];
+    logos: string[];
+    teamStats: number[][];
+    stats: string[];
+}
+
+const{
+    LeagueName,
+    teams,
+    teamStats,
+    logos,
+    stats
+} = Astro.props;
+---
+
+
+<div class="Table-wrapper">
+    <div class="Table-header">
+        <p>{LeagueName}</p>
+        <div class="Table-statWrap">
+            {
+                stats.map((stat) => (
+                    <div class="Table-statHead">
+                        {stat}
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+
+    <div class="Table-content">
+        {
+            teams.map((team, index) => (
+                <Leaderboard
+                team={team}
+                teamLogo={logos[index]}
+                teamStats={teamStats[index]}
+                />
+            ))
+        }
+    </div>
+</div>
+
+ 

@@ -1,0 +1,35 @@
+.Table-wrapper{
+    padding-bottom: 3px;
+    padding-right: 2px;
+    border: solid 0.5px #dfe2e6;
+    background-color: #f6f8fa;
+    border-radius: 20px;
+}
+
+.Table-wrapper p {
+    margin: 0;
+}
+
+.Table-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    padding-right: 5px;
+    padding-left: 15px;
+    padding-top: 5px;
+}
+
+.Table-statWrap{
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    
+}
+
+.Table-statHead{
+    width: 30px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}

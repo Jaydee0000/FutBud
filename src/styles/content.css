@@ -17,5 +17,5 @@
 }
 
 .right-panel{
-    background: blue;
+    padding: 3px 10px; /* This sets the official padding for all content*/
 }

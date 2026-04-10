@@ -5,8 +5,25 @@
 }
 
 .R-LB-header{
-    padding: 5px 13px;
-    border-bottom: solid 0.5px #dfe2e6
+    padding-top: 5px;
+    padding-left: 13px;
+    padding-right: 5px;
+    border-bottom: solid 0.5px #dfe2e6;
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+}
+
+.R-LB-statWrap{
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+}
+
+.R-LB-statHead{
+    width: 40px;
+    display: flex;
+    justify-content: center;
 }
 
 .R-LB-content{

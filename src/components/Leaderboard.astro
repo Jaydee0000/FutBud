@@ -4,7 +4,7 @@ import '../styles/leaderboard.css';
 interface Props {
   team: string;
   teamLogo: string;
-  teamStats: (string | number)[];
+  teamStats: (number)[];
 }
 
 const {
@@ -17,7 +17,7 @@ const {
 <div class="LB-wrapper">
 
     <div class="LB-position">
-        <p>{teamStats[0]}</p>
+        <p>{teamStats[0] ?? '?'}</p>
     </div>
 
     <div class="LB-logo">

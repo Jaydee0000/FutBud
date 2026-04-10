@@ -6,13 +6,15 @@ interface Props {
   header: string;
   teams: string[];
   logos: string[];
-  teamStats: (string | number)[][];
+  stats: string[];
+  teamStats: (number)[][];
 }
 
 const {
   header,
   teams,
   logos,
+  stats,
   teamStats
 } = Astro.props;
 ---
@@ -20,6 +22,15 @@ const {
 <div class="R-LB-wrapper">
   <div class="R-LB-header">
     <p>{header}</p>
+    <div class="R-LB-statWrap">
+      {
+        stats.map((stat) => (
+          <div class="R-LB-statHead">
+            {stat}
+          </div>
+        ))
+      }
+    </div>
   </div>
 
   <div class="R-LB-content">

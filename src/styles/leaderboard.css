@@ -3,6 +3,7 @@
     flex-direction: row;
     align-items: center;
     padding: 0px 5px;
+    container-type: inline-size;
 }
 
 .LB-position{
@@ -43,4 +44,26 @@
     width: 40px;
     display: flex;
     justify-content: center;
+}
+
+@container (max-width: 300px){
+    .LB-logo img{
+        width: 20px;
+        height: 20px;
+    }
+
+    .LB-wrapper p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .LB-position{
+        width: 50px;
+    }
+
+    .statItem{
+        width: 30px;
+    }
+
+
 }
