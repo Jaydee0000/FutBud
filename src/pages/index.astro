@@ -6,10 +6,13 @@ import H2hExample from '../components/TeamStatCompare.astro';
 import LeaderboardRanks from '../components/RatingLeaderBoard.astro';
 import FGTable from '../components/Table.astro';
 import Gamecard from '../components/teamsh2h.astro';
+import GamesUp from '../components/GamesUpcoming.astro';
+import LeagueDecider from '../components/LeagueDecider.astro';
 import '../styles/global.css';
 import '../styles/content.css';
 
 const leagues = [
+	"All",
 	"Premier League",
 	"La Liga",
 	"Serie A",
@@ -20,115 +23,122 @@ const leagues = [
 
 <Header />
 
-<main class="content">
-	<div class="left-panel">
-		<League/>
-		<LeagueDD/>
-	</div>
 
-	<div class="middle-panel">
-		<H2hExample
-		title="Featured Game"
-		competition="UEFA Champions League"
-		team1="Arsenal"
-		team2="Chelsea"
-		team1P="80"
-		team2P="80"
-		team1L="80"
-		team2L="80"
-		team1Odd="80"
-		team2Odd="80"
-		team1HA="80"
-		team2HA="80"
-		team1RR="80"
-		team2RR="80"
-		/>
+<div class="content-full">
 
-		<LeaderboardRanks
-			header="Power Rankings"
-			teams={["Liverpool", "Arsenal", "Man City", "Chelsea", "Manchester United"]}
-			logos={["/manCity.png", "/manUnited.png", "/manCity.png", "/manUnited.png", "/manCity.png"]}
-			stats={["P%", "XG", "GA"]}
-			teamStats={[
-				[1, 95.2, 2.4, 0.8],
-				[2, 92.7, 2.1, 0.9],
-				[3, 90.5, 2.0, 1.0],
-				[4, 90.2, 1.9, 1.1],
-				[5, 90.0, 1.8, 1.2]
-			]}
-		/>
-
-		<LeaderboardRanks
-			header="Luck Rankings"
-			teams={["Liverpool", "Arsenal", "Manchester City", "Chelsea", "Manchester United"]}
-			logos={["/manCity.png", "/manUnited.png", "/manCity.png", "/manUnited.png", "/manCity.png"]}
-			stats={["L%", "XG", "GA"]}
-			teamStats={[
-				[1, 95.2, 2.4, 0.8],
-				[2, 92.7, 2.1, 0.9],
-				[3, 90.5, 2.0, 1.0],
-				[4, 90.2, 1.9, 1.1],
-				[5, 90.0, 1.8, 1.2]
-			]}
-		/>
-
-	</div>
-
-
-	<div class="right-panel">
-		<FGTable
-			LeagueName="Premier League"
-			teams={[
-				"Arsenal",
-				"Man City",
-				"Man United",
-				"Aston Villa",
-				"Liverpool",
-				"Chelsea",
-				"Brentford",
-				"Everton",
-				"Fulham",
-				"Brighton",
-				"Sunderland",
-				"Newcastle",
-				"Bournemouth",
-				"Crystal Palace",
-				"Leeds",
-				"Nottingham",
-				"Tottenham",
-				"West Ham",
-				"Burnley",
-				"Wolves"
-				]}
-				
-			logos={["/manCity.png", "/manCity.png", "/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png"]}
-			stats={["GP", "GD", "PTS"]}
-			teamStats={[
-					[1, 31, 39, 70],
-					[2, 31, 32, 61],
-					[3, 31, 13, 55],
-					[4, 31, 5, 54],
-					[5, 31, 8, 49],
-					[6, 31, 15, 48],
-					[7, 31, 4, 46],
-					[8, 31, 2, 46],
-					[9, 31, -1, 44],
-					[10, 31, 4, 43],
-					[11, 31, -4, 43],
-					[12, 31, -1, 42],
-					[13, 31, -2, 42],
-					[14, 30, -2, 39],
-					[15, 31, -11, 33],
-					[16, 31, -12, 32],
-					[17, 31, -10, 30],
-					[18, 31, -21, 29],
-					[19, 31, -28, 20],
-					[20, 31, -30, 17]
-				]}
-			
-		/>
-		
-		
 	
+
+	<div class="content">
+		<div class="left-panel">
+			<GamesUp/>
+		</div>
+
+		<div class="middle-panel">
+			<H2hExample
+			title="Featured Game"
+			competition="UEFA Champions League"
+			team1="Arsenal"
+			team2="Chelsea"
+			team1P="80"
+			team2P="80"
+			team1L="80"
+			team2L="80"
+			team1Odd="80"
+			team2Odd="80"
+			team1HA="80"
+			team2HA="80"
+			team1RR="80"
+			team2RR="80"
+			/>
+
+			<LeaderboardRanks
+				header="Power Rankings"
+				teams={["Liverpool", "Arsenal", "Man City", "Chelsea", "Manchester United"]}
+				logos={["/manCity.png", "/manUnited.png", "/manCity.png", "/manUnited.png", "/manCity.png"]}
+				stats={["P%", "XG", "GA"]}
+				teamStats={[
+					[1, 95.2, 2.4, 0.8],
+					[2, 92.7, 2.1, 0.9],
+					[3, 90.5, 2.0, 1.0],
+					[4, 90.2, 1.9, 1.1],
+					[5, 90.0, 1.8, 1.2]
+				]}
+			/>
+
+			<LeaderboardRanks
+				header="Luck Rankings"
+				teams={["Liverpool", "Arsenal", "Manchester City", "Chelsea", "Manchester United"]}
+				logos={["/manCity.png", "/manUnited.png", "/manCity.png", "/manUnited.png", "/manCity.png"]}
+				stats={["L%", "XG", "GA"]}
+				teamStats={[
+					[1, 95.2, 2.4, 0.8],
+					[2, 92.7, 2.1, 0.9],
+					[3, 90.5, 2.0, 1.0],
+					[4, 90.2, 1.9, 1.1],
+					[5, 90.0, 1.8, 1.2]
+				]}
+			/>
+
+		</div>
+
+
+		<div class="right-panel">
+			<FGTable
+				LeagueName="Premier League"
+				teams={[
+					"Arsenal",
+					"Man City",
+					"Man United",
+					"Aston Villa",
+					"Liverpool",
+					"Chelsea",
+					"Brentford",
+					"Everton",
+					"Fulham",
+					"Brighton",
+					"Sunderland",
+					"Newcastle",
+					"Bournemouth",
+					"Crystal Palace",
+					"Leeds",
+					"Nottingham",
+					"Tottenham",
+					"West Ham",
+					"Burnley",
+					"Wolves"
+					]}
+					
+				logos={["/manCity.png", "/manCity.png", "/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png","/manCity.png"]}
+				stats={["GP", "GD", "PTS"]}
+				teamStats={[
+						[1, 31, 39, 70],
+						[2, 31, 32, 61],
+						[3, 31, 13, 55],
+						[4, 31, 5, 54],
+						[5, 31, 8, 49],
+						[6, 31, 15, 48],
+						[7, 31, 4, 46],
+						[8, 31, 2, 46],
+						[9, 31, -1, 44],
+						[10, 31, 4, 43],
+						[11, 31, -4, 43],
+						[12, 31, -1, 42],
+						[13, 31, -2, 42],
+						[14, 30, -2, 39],
+						[15, 31, -11, 33],
+						[16, 31, -12, 32],
+						[17, 31, -10, 30],
+						[18, 31, -21, 29],
+						[19, 31, -28, 20],
+						[20, 31, -30, 17]
+					]}
+				
+			/>
+			
+			
+		
+		</div>
 	</div>
-</main>
+</div>
+
+	

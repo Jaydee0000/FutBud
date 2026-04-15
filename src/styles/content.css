@@ -1,11 +1,21 @@
 .content{
     display: grid;
-    grid-template-columns: 350px 1fr 300px;
+    grid-template-columns: 400px 700px 300px;
+    justify-content: center;
     padding: 2px 20px;
     min-height: calc(100vh - 100px);
 }
 
+.content-leagueDecider{
+    display: flex;
+    flex-direction: row;
+    padding: 2px 20px;
+    justify-content: center;
+    gap: 15px;
+}
+
 .left-panel{
+    border: 0.5px solid black;
 }
 
 .middle-panel{
@@ -19,3 +29,53 @@
 .right-panel{
     padding: 3px 10px; /* This sets the official padding for all content*/
 }
+
+
+
+
+@media (max-width: 1400px) {
+    .content{
+        display: grid;
+        grid-template-columns: 350px 1fr 300px;
+        justify-content: center;
+        padding: 2px 20px;
+        min-height: calc(100vh - 100px);
+    }
+}
+
+@media (max-width: 1250px) {
+    .content{
+        display: grid;
+        grid-template-columns: 650px 400px;
+        justify-content: center;
+        padding: 2px 20px;
+        min-height: calc(100vh - 100px);
+    }
+
+    .left-panel{
+        display: none;
+    }
+}
+
+@media (max-width: 1100px) {
+    .content{
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        justify-content: center;
+        padding: 2px 20px;
+        min-height: calc(100vh - 100px);
+    }
+}
+
+@media (max-width: 1000px){
+    .content{
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        justify-content: center;
+        padding: 2px 20px;
+        min-height: calc(100vh - 100px);
+    }
+}
+
+
+

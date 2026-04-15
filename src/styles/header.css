@@ -13,6 +13,14 @@
     background-color: #f6f8fa;
 }
 
+.leagueDecider{
+    display: flex;
+    flex-direction: row;
+    padding: 2px 20px;
+    justify-content: center;
+    gap: 15px;
+}
+
 .header-inner{
     display: flex;
     flex-direction: row;

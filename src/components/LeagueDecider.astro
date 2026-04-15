@@ -1,0 +1,19 @@
+---
+import '../styles/leagueDecider.css';
+
+interface Props{
+    league: string;
+    isActive?: boolean;
+}
+
+const {
+    league,
+    isActive = false
+} = Astro.props;
+
+---
+
+<button class={`LD-wrapper ${isActive ? 'active' : ''}`}>
+    <img src="../eplLogo.png"/>
+    <p>{league}</p>
+</button>

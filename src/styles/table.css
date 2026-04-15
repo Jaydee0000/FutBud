@@ -4,11 +4,28 @@
     border: solid 0.5px #dfe2e6;
     background-color: #f6f8fa;
     border-radius: 20px;
+    container-type: inline-size;
 }
 
 .Table-wrapper p {
     margin: 0;
 }
+
+.Table-pl{
+    display: flex;
+    flex-direction: row;
+}
+
+.Table-place{
+    width: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.Table-league{
+    font-weight: 600;
+}
+
 
 .Table-header{
     display: flex;
@@ -16,8 +33,9 @@
     justify-content: space-between;
     align-content: center;
     padding-right: 5px;
-    padding-left: 15px;
+    padding-left: 5px;
     padding-top: 5px;
+    border-bottom: 0.5px solid #dfe2e6;
 }
 
 .Table-statWrap{
@@ -28,8 +46,18 @@
 }
 
 .Table-statHead{
-    width: 30px;
+    width: 40px;
     display: flex;
     align-content: center;
     justify-content: center;
+}
+
+.Table-content{
+    padding: 5px 0;
+}
+
+@container(max-width: 300px){
+    .Table-statHead{
+        width: 30px;
+    }
 }

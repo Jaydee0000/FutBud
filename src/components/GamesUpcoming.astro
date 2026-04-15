@@ -1,0 +1,45 @@
+---
+
+
+import '../styles/gamesUpcoming.css';
+import Game from '../components/GameDisplay4GU.astro';
+
+---
+
+<div class="GU-wrapper">
+
+    <div class="GU-header">
+        <div class="GU-header-LeagueNationInd">
+            <img src="../UEFA.png" alt="this didnt display"/>
+        </div>
+
+        <h3>
+            UEFA Champions League
+        </h3>
+    </div>
+
+    <div class="GU-content">
+        <Game
+        team1="XXX"
+        team2="XXXXXXXXXX"
+        time1="12:70 AM"
+        date1="Apr 2"
+        />
+
+        <Game
+        team1="XXXXXXXXXXXX"
+        team2="XXXX"
+        time1="8:00 PM"
+        date1="Apr 2"
+        />
+
+        <Game
+        team1="XXXXXXXXXXXXXX"
+        team2="XXXXXXXXXXXXXX"
+        time1="1:08 PM"
+        date1="Apr 2"
+        />
+
+    </div>
+    
+</div>

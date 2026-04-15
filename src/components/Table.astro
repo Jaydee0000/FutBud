@@ -22,7 +22,17 @@ const{
 
 <div class="Table-wrapper">
     <div class="Table-header">
-        <p>{LeagueName}</p>
+         <div class="Table-pl">
+            <div class="Table-place">
+                <p>#</p>
+            </div>
+            
+            <div class="Table-league">
+                <p>{LeagueName}</p>
+            </div>
+            
+         </div>
+        
         <div class="Table-statWrap">
             {
                 stats.map((stat) => (
@@ -38,7 +48,7 @@ const{
         {
             teams.map((team, index) => (
                 <Leaderboard
-                team={team}
+                team={team} 
                 teamLogo={logos[index]}
                 teamStats={teamStats[index]}
                 />

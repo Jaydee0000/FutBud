@@ -1,11 +1,43 @@
 ---
 import '../styles/header.css';
+import LeagueDecider from '../components/LeagueDecider.astro';
+
+const leagues = [
+	"All",
+	"Premier League",
+	"La Liga",
+	"Serie A",
+	"Bundesliga",
+	"Ligue 1"
+];
 ---
 
 <header class="site-header">
 	<div class="header-inner">
 		<div class="title">FutBud</div>
 		<div class="search">Search</div>
+
+		<div class="leagueDecider">
+
+		{
+			leagues.map((league) => (
+				<LeagueDecider {league}/>
+			))
+		}
+
+		<script>
+			const buttons = document.querySelectorAll('.LD-wrapper');
+
+			buttons.forEach((button) => {
+				button.addEventListener('click', () => {
+				buttons.forEach((btn) => btn.classList.remove('active'));
+				button.classList.add('active');
+				});
+			});
+		</script>
+
+	
+	</div>
 		<div class="nav">
 			<div class="power">Power-Ranking</div>
 			<div class="luck">Luck-Ranking</div>
