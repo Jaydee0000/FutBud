@@ -1,0 +1,23 @@
+---
+import '../styles/matchdayDisplay.css';
+
+const{
+    date,
+    games
+} = Astro.props;
+
+---
+
+<div class="md-wrapper">
+    <div class="md-date">{date}</div>
+
+    <div class="md-games">
+        {
+            games.map{(game) => 
+            (
+                /*call gameDisplay*/
+            )
+            }
+        }
+    </div>
+</div>

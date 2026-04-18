@@ -5,14 +5,12 @@ interface Props{
     team1: string;
     team2: string;
     time1: string;
-    date1: string;
 }
 
 const{
     team1,
     team2,
     time1,
-    date1
 } = Astro.props;
 ---
 
@@ -24,7 +22,6 @@ const{
         </div>
 
         <div class="GDis-gameData">
-            <p>{date1}</p>
             <p>{time1}</p>
         </div>
 

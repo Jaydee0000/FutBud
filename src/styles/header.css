@@ -13,6 +13,11 @@
     background-color: #f6f8fa;
 }
 
+.site-header p{
+    margin: 0;
+    line-height: 1;
+}
+
 .leagueDecider{
     display: flex;
     flex-direction: row;
@@ -26,10 +31,9 @@
     flex-direction: row;
     width: 100%;
     align-items: center;
-    justify-content: center;
-    padding: 0px 0px;
+    justify-content: space-between;
+    padding: 0px 20px;
     box-sizing: border-box;
-    gap: 15px;
 }
 
 .title{
@@ -40,21 +44,28 @@
     font-weight: bold;
 }
 
-.search{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 200px;
-    height: 38px;
-    background: #E6E5E5;
-    border-radius: 8px;
-    padding: 0px 5px;
-}
+
 
 .nav{
-    margin-left: auto;
-    display: inline-flex;
-    gap: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
     box-sizing: border-box;
     font-weight: bold;
+}
+
+.explain,
+.about
+{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;    
+    width: fit-content;
+    align-items: center;
+}
+
+.explain p,
+.about p{
+    width: fit-content;
 }

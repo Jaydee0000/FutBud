@@ -1,15 +1,21 @@
 .GU-wrapper{
     display: flex;
     flex-direction: column;
+    border-radius: 20px;
+    overflow: hidden;
 }
 
 .GU-header{
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 10px;
     padding: 5px 10px;
+    background-color: #f6f8fa;
+    border: 0.5px solid #dfe2e6;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
 
 .GU-header h3{
@@ -18,17 +24,37 @@
     margin: 0;
 }
 
-.GU-header-LeagueNationInd{
-    display: flex;
-}
-
-.GU-header-LeagueNationInd img{
-    width: 35px;
-    height: 35px;
-}
 
 .GU-content{
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    padding: 5px 10px;
+    background-color: #f6f8fa;
+    border: 0.5px solid #dfe2e6;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.GU-dateGroup p{
+    margin: 0;
+    line-height: 1;
+}
+
+.GU-dateGroup{
+    display: flex;
+    flex-direction: column;
+}
+
+.GU-DG-games{
+    flex-direction: column;
+}
+
+.GU-DG-date{
+    display: flex;
+    height: 20px;
+    padding: 5px 15px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #eceded;
 }

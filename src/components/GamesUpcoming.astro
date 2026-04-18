@@ -1,45 +1,105 @@
 ---
-
-
 import '../styles/gamesUpcoming.css';
 import Game from '../components/GameDisplay4GU.astro';
+
+interface Game{
+  matchId: string;
+  team1: string;
+  team2: string;
+  time: string;
+  date: string;
+  status: string;
+}
+
+
+interface Props{
+  matchweek: number;
+  games: Game[];
+}
+
+const{
+  matchweek,
+  games
+} = Astro.props;
+
+function convertTimeToMinutes(time: string): number {
+  const [clock, period] = time.split(" ");
+  let [hours, minutes] = clock.split(":").map(Number);
+
+  if (period === "PM" && hours !== 12) hours += 12;
+  if (period === "AM" && hours === 12) hours = 0;
+
+  return hours * 60 + minutes;
+}
+
+function groupGamesByDate(games: Game[]) {
+  const grouped: Record<string, Game[]> = {};
+
+  games.forEach((game) => {
+    if (!grouped[game.date]) {
+      grouped[game.date] = [];
+    }
+
+    grouped[game.date].push(game);
+  });
+
+  return Object.entries(grouped)
+    .map(([date, games]) => ({
+      date,
+      games: games.sort(
+        (a, b) => convertTimeToMinutes(a.time) - convertTimeToMinutes(b.time)
+      )
+    }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+}
+
+function formatDate(dateString: string): string {
+  return new Date(dateString + "T00:00:00").toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric"
+  });
+}
+
+const groupedGames = groupGamesByDate(games);
 
 ---
 
 <div class="GU-wrapper">
 
     <div class="GU-header">
-        <div class="GU-header-LeagueNationInd">
-            <img src="../UEFA.png" alt="this didnt display"/>
-        </div>
-
         <h3>
-            UEFA Champions League
+            Matchweek {matchweek}
         </h3>
     </div>
 
     <div class="GU-content">
-        <Game
-        team1="XXX"
-        team2="XXXXXXXXXX"
-        time1="12:70 AM"
-        date1="Apr 2"
-        />
 
-        <Game
-        team1="XXXXXXXXXXXX"
-        team2="XXXX"
-        time1="8:00 PM"
-        date1="Apr 2"
-        />
+        {
+          groupedGames.map((group) => (
+            <div class="GU-dateGroup">
 
-        <Game
-        team1="XXXXXXXXXXXXXX"
-        team2="XXXXXXXXXXXXXX"
-        time1="1:08 PM"
-        date1="Apr 2"
-        />
+              <div class="GU-DG-date">
+                <p>{formatDate(group.date)}</p>
+              </div>
+              
+              <div class="GU-DG-games">
+                {
+                  group.games.map((game) => (
+                    <Game
+                    team1={game.team1}
+                    team2={game.team2}
+                    time1={game.time}
+                    />
+                  ))
+                }
+              </div>
+              
+            </div>
+          ))
+        }
 
+        
     </div>
     
 </div>

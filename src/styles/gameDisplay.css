@@ -7,9 +7,8 @@
     padding: 3px 5px;
     gap: 8px;
     height: 45px;
-    border: 0.5px solid black;
     box-sizing: border-box;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 .GDis-team1,
@@ -19,7 +18,7 @@
     flex: 1;
     height: fit-content;
     align-items: center;
-    gap: 3px;
+    gap: 5px;
 }
 
 .GDis-team1{
@@ -41,7 +40,7 @@
 .GDis-gameData p
 {
     margin: 0;
-    font-size: 13px;
+    font-size: 11px;
 }
 
 .GDis-gameData{
@@ -50,7 +49,9 @@
     align-items: center;
     justify-content: center;
     width: 50px;
+    height: fit-content;
     white-space: nowrap;
+    gap: 3px;
 }
 
 .GDis-gameData p {

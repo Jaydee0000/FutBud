@@ -1,9 +1,8 @@
 ---
-import '../styles/header.css';
 import LeagueDecider from '../components/LeagueDecider.astro';
+import '../styles/header.css';
 
 const leagues = [
-	"All",
 	"Premier League",
 	"La Liga",
 	"Serie A",
@@ -15,7 +14,6 @@ const leagues = [
 <header class="site-header">
 	<div class="header-inner">
 		<div class="title">FutBud</div>
-		<div class="search">Search</div>
 
 		<div class="leagueDecider">
 
@@ -39,9 +37,11 @@ const leagues = [
 	
 	</div>
 		<div class="nav">
-			<div class="power">Power-Ranking</div>
-			<div class="luck">Luck-Ranking</div>
-			<div class="about">About</div>
+			<div class="explain">
+				<p>Power & Luck</p>
+				<p>Ranking?</p>
+			</div>
+			<div class="about">About Me</div>
 		</div>
 	</div>
 </header>
