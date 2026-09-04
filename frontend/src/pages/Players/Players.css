@@ -1,0 +1,414 @@
+.players-page {
+  width: 100%;
+  max-width: 1500px;
+
+  margin: 0 auto;
+  padding: 35px 40px 50px;
+
+  box-sizing: border-box;
+}
+
+
+/* ---------------- PAGE HEADING ---------------- */
+
+.players-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  margin-bottom: 28px;
+}
+
+.players-heading h1 {
+  margin: 0;
+
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.players-heading p {
+  margin-top: 6px;
+
+  color: #8492a0;
+  font-size: 14px;
+}
+
+.player-filters {
+  display: flex;
+  gap: 12px;
+}
+
+.player-filters select {
+  min-width: 180px;
+  height: 42px;
+
+
+  background-color: #0a1520;
+  color: #dce3e9;
+
+  border: 1px solid #1a2b3a;
+  border-radius: 8px;
+
+  outline: none;
+
+  cursor: pointer;
+}
+
+
+/* ---------------- MAIN GRID ---------------- */
+
+.stats-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 16px;
+}
+
+
+/* ---------------- CARD ---------------- */
+
+.player-stat-card {
+  min-width: 0;
+
+  background-color: #0a1520;
+
+  border: 1px solid #1a2b3a;
+  border-radius: 11px;
+
+  overflow: hidden;
+}
+
+.stat-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 18px 16px 10px;
+}
+
+.stat-card-title {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+}
+
+.stat-card-title h2 {
+  margin: 0;
+
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.stat-icon {
+  font-size: 20px;
+
+  color: var(--stat-color);
+}
+
+.view-stat-button {
+  border: none;
+  background: transparent;
+
+  color: var(--stat-color);
+
+  cursor: pointer;
+
+  font-size: 12px;
+}
+
+.view-stat-button:hover {
+  text-decoration: underline;
+}
+
+
+/* ---------------- PLAYER ROW ---------------- */
+
+.stat-player-list {
+  padding: 3px 16px 8px;
+}
+
+.stat-player-row {
+  min-height: 53px;
+
+  display: flex;
+  align-items: center;
+
+  border-bottom: 1px solid #142330;
+}
+
+.stat-player-row:last-child {
+  border-bottom: none;
+}
+
+.stat-rank {
+  width: 26px;
+
+  color: #9aa5af;
+
+  font-size: 13px;
+}
+
+.player-avatar {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  margin-right: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background-color: #172735;
+
+  color: #dce4ea;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.stat-player-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;
+}
+
+.stat-player-info strong {
+  overflow: hidden;
+
+  color: #f3f6f8;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.stat-player-info span {
+  margin-top: 3px;
+
+  overflow: hidden;
+
+  color: #7d8a97;
+
+  font-size: 11px;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.stat-value {
+  margin-left: 8px;
+
+  color: var(--stat-color);
+
+  font-size: 16px;
+}
+
+.stat-footer {
+  padding: 12px 16px;
+
+  border-top: 1px solid #182735;
+
+  color: #788694;
+
+  font-size: 11px;
+}
+
+
+/* ---------------- CARD COLORS ---------------- */
+
+.green-card {
+  --stat-color: #63e653;
+}
+
+.purple-card {
+  --stat-color: #b786ff;
+}
+
+.lime-card {
+  --stat-color: #7dea3c;
+}
+
+.blue-card {
+  --stat-color: #55aaff;
+}
+
+.orange-card {
+  --stat-color: #ff7a1a;
+}
+
+.cyan-card {
+  --stat-color: #25dbd2;
+}
+
+.yellow-card {
+  --stat-color: #f2ce39;
+}
+
+.pink-card {
+  --stat-color: #ff4e86;
+}
+
+
+/* ---------------- RISING STARS ---------------- */
+
+.rising-stars {
+  margin-top: 18px;
+
+  padding: 18px;
+
+  background-color: #0a1520;
+
+  border: 1px solid #1a2b3a;
+  border-radius: 11px;
+}
+
+.rising-stars-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 15px;
+}
+
+.rising-stars-heading h2 {
+  margin: 0;
+
+  font-size: 18px;
+}
+
+.rising-stars-heading p {
+  margin-top: 4px;
+
+  color: #7d8a97;
+
+  font-size: 12px;
+}
+
+.rising-stars-heading button {
+  background: transparent;
+  border: none;
+
+  color: #63e653;
+
+  cursor: pointer;
+}
+
+.rising-stars-list {
+  display: grid;
+
+  grid-template-columns: repeat(5, 1fr);
+
+  gap: 12px;
+}
+
+.rising-star {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  padding: 12px;
+
+  background-color: #0c1925;
+
+  border: 1px solid #182a39;
+  border-radius: 8px;
+}
+
+.rising-rank {
+  width: 22px;
+
+  color: #929daa;
+
+  font-size: 13px;
+}
+
+.rising-rating {
+  margin-left: 8px;
+
+  padding: 5px 8px;
+
+  color: #63e653;
+
+  background-color: #132d19;
+
+  border: 1px solid #24572c;
+  border-radius: 5px;
+}
+
+
+/* ---------------- RESPONSIVE ---------------- */
+
+@media (max-width: 1300px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rising-stars-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
+@media (max-width: 800px) {
+  .players-heading {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 18px;
+  }
+
+  .player-filters {
+    width: 100%;
+  }
+
+  .player-filters select {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .rising-stars-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+@media (max-width: 650px) {
+  .players-page {
+    padding: 25px 20px 40px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rising-stars-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+@media (max-width: 500px) {
+  .players-heading h1 {
+    font-size: 27px;
+  }
+
+  .player-filters {
+    flex-direction: column;
+  }
+
+  .player-filters select {
+    width: 100%;
+  }
+}

@@ -1,0 +1,36 @@
+.team-link {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  color: inherit;
+
+  text-decoration: none;
+
+  transition: color 0.15s ease;
+}
+
+.team-link:hover {
+  color: #63e653;
+}
+
+.team-link-logo {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  background-color: #152736;
+
+  border-radius: 50%;
+
+  color: white;
+
+  font-size: 7px;
+  font-weight: 800;
+}

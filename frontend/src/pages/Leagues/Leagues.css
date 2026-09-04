@@ -1,0 +1,772 @@
+.leagues-page {
+  width: 100%;
+  max-width: 1500px;
+
+  margin: 0 auto;
+  padding: 35px 40px 50px;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGE HEADING
+   ========================================================= */
+
+.leagues-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 28px;
+}
+
+.leagues-heading h1 {
+  margin: 0;
+
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.leagues-heading p {
+  margin: 6px 0 0;
+
+  color: #8492a0;
+
+  font-size: 14px;
+}
+
+.leagues-heading select {
+  min-width: 180px;
+  height: 42px;
+
+  padding: 0 14px;
+
+  background-color: #0a1520;
+  color: #dce3e9;
+
+  border: 1px solid #1a2b3a;
+  border-radius: 8px;
+
+  outline: none;
+
+  font-size: 13px;
+
+  cursor: pointer;
+}
+
+.leagues-heading select:hover {
+  border-color: #2b3e4e;
+}
+
+.leagues-heading select:focus {
+  border-color: #63e653;
+}
+
+
+/* =========================================================
+   FEATURED LEAGUE
+   ========================================================= */
+
+.featured-league {
+  min-height: 260px;
+
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  padding: 28px;
+
+  background:
+    linear-gradient(
+      120deg,
+      #0a1520 0%,
+      #0c1a21 60%,
+      #102719 100%
+    );
+
+  border: 1px solid #1b3226;
+  border-radius: 14px;
+
+  overflow: hidden;
+}
+
+.featured-league-left {
+  min-width: 0;
+
+  flex: 1;
+}
+
+.league-section-label {
+  margin: 0 0 20px;
+
+  color: #63e653;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+}
+
+.featured-league-info {
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+}
+
+.featured-league-logo {
+  width: 84px;
+  height: 84px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #172a37;
+
+  border: 1px solid #29404e;
+  border-radius: 50%;
+
+  color: #63e653;
+
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.featured-league-info h2 {
+  margin: 0;
+
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.featured-league-info span {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #8794a0;
+
+  font-size: 13px;
+}
+
+
+/* ---------------- FEATURED STATS ---------------- */
+
+.featured-league-stats {
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(100px, auto));
+
+  gap: 34px;
+
+  margin-top: 32px;
+}
+
+.featured-league-stats div {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.featured-league-stats span {
+  color: #778491;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.featured-league-stats strong {
+  overflow: hidden;
+
+  color: #edf2f5;
+
+  font-size: 14px;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+/* ---------------- FEATURED RIGHT SIDE ---------------- */
+
+.featured-league-right {
+  min-width: 220px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+
+  padding-left: 28px;
+
+  border-left: 1px solid #1b3426;
+}
+
+.featured-league-right > span {
+  color: #84919c;
+
+  font-size: 11px;
+
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+.featured-league-right > strong {
+  margin: 5px 0 22px;
+
+  color: #63e653;
+
+  font-size: 55px;
+  line-height: 1;
+
+  font-weight: 800;
+}
+
+
+/* ---------------- FEATURED LINK BUTTON ---------------- */
+
+.featured-league-button {
+  min-width: 135px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 0 16px;
+
+  background-color: #63e653;
+  color: #081109;
+
+  border-radius: 7px;
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.featured-league-button:hover {
+  opacity: 0.9;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   SECTION HEADINGS
+   ========================================================= */
+
+.all-leagues-section {
+  margin-top: 32px;
+}
+
+.league-comparison {
+  margin-top: 32px;
+}
+
+.league-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 15px;
+}
+
+.league-section-heading h2 {
+  margin: 0;
+
+  font-size: 22px;
+}
+
+.league-section-heading p {
+  margin: 5px 0 0;
+
+  color: #788592;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   LEAGUE CARD GRID
+   ========================================================= */
+
+.league-card-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 17px;
+}
+
+.league-card {
+  min-width: 0;
+
+  padding: 20px;
+
+  background-color: #0a1520;
+
+  border: 1px solid #172635;
+  border-radius: 12px;
+
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.league-card:hover {
+  border-color: #2a3d4c;
+
+  transform: translateY(-2px);
+}
+
+
+/* ---------------- CARD HEADER ---------------- */
+
+.league-card-top {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid #172635;
+}
+
+.league-logo-placeholder {
+  width: 55px;
+  height: 55px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #152636;
+
+  border: 1px solid #203747;
+  border-radius: 50%;
+
+  color: #63e653;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.league-card-top h2 {
+  margin: 0;
+
+  font-size: 17px;
+  font-weight: 650;
+}
+
+.league-card-top span {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #778491;
+
+  font-size: 12px;
+}
+
+
+/* ---------------- CARD DATA ---------------- */
+
+.league-card-details {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 18px;
+
+  padding: 20px 0;
+}
+
+.league-card-details div {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.league-card-details span {
+  color: #788592;
+
+  font-size: 10px;
+
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.league-card-details strong {
+  overflow: hidden;
+
+  color: #eef2f5;
+
+  font-size: 13px;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.league-card-details .league-green {
+  color: #63e653;
+
+  font-size: 18px;
+}
+
+
+/* ---------------- VIEW LEAGUE LINK ---------------- */
+
+.view-league-button {
+  width: 100%;
+  height: 39px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  background-color: #172b1c;
+  color: #63e653;
+
+  border-radius: 7px;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.view-league-button:hover {
+  background-color: #1d3924;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   LEAGUE COMPARISON
+   ========================================================= */
+
+.league-comparison {
+  padding: 22px;
+
+  background-color: #0a1520;
+
+  border: 1px solid #172635;
+  border-radius: 12px;
+
+  overflow: hidden;
+}
+
+.league-comparison-table {
+  width: 100%;
+}
+
+
+/* ---------------- TABLE ROW ---------------- */
+
+.comparison-row {
+  display: grid;
+
+  grid-template-columns:
+    minmax(220px, 1.8fr)
+    120px
+    110px
+    minmax(170px, 1.4fr)
+    100px
+    minmax(190px, 1.5fr);
+
+  align-items: center;
+
+  min-height: 66px;
+
+  border-bottom: 1px solid #172635;
+
+  font-size: 13px;
+}
+
+.comparison-row:last-child {
+  border-bottom: none;
+}
+
+.comparison-header {
+  min-height: 40px;
+
+  color: #74818d;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+
+/* ---------------- LEAGUE COLUMN ---------------- */
+
+.comparison-league {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.small-league-logo {
+  width: 36px;
+  height: 36px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #152636;
+
+  border-radius: 50%;
+
+  color: #63e653;
+
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.comparison-league > div:last-child {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.comparison-league strong {
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.comparison-league span {
+  margin-top: 3px;
+
+  color: #74818d;
+
+  font-size: 10px;
+}
+
+
+/* ---------------- RATING ---------------- */
+
+.comparison-rating {
+  width: 42px;
+  height: 31px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #17351d;
+  color: #63e653;
+
+  border-radius: 6px;
+
+  font-weight: 700;
+}
+
+
+/* ---------------- COMPETITIVENESS ---------------- */
+
+.competitiveness {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.competitiveness-track {
+  width: 110px;
+  height: 7px;
+
+  flex-shrink: 0;
+
+  overflow: hidden;
+
+  background-color: #172633;
+
+  border-radius: 20px;
+}
+
+.competitiveness-fill {
+  height: 100%;
+
+  background-color: #63e653;
+
+  border-radius: 20px;
+}
+
+.competitiveness strong {
+  min-width: 25px;
+
+  color: #63e653;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1150px) {
+  .league-card-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .featured-league-stats {
+    grid-template-columns:
+      repeat(2, minmax(120px, 1fr));
+
+    gap: 20px;
+  }
+
+  .league-comparison {
+    overflow-x: auto;
+  }
+
+  .league-comparison-table {
+    min-width: 950px;
+  }
+}
+
+
+@media (max-width: 850px) {
+  .leagues-heading {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .leagues-heading select {
+    width: 100%;
+  }
+
+  .featured-league {
+    flex-direction: column;
+  }
+
+  .featured-league-right {
+    min-width: 0;
+
+    align-items: flex-start;
+
+    padding-top: 24px;
+    padding-left: 0;
+
+    border-top: 1px solid #1b3426;
+    border-left: none;
+  }
+
+  .featured-league-right > strong {
+    font-size: 44px;
+  }
+}
+
+
+@media (max-width: 650px) {
+  .leagues-page {
+    padding: 25px 20px 40px;
+  }
+
+  .league-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-league {
+    padding: 22px;
+  }
+
+  .featured-league-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .league-section-heading h2 {
+    font-size: 20px;
+  }
+}
+
+
+@media (max-width: 500px) {
+  .leagues-heading h1 {
+    font-size: 27px;
+  }
+
+  .featured-league-info {
+    gap: 14px;
+  }
+
+  .featured-league-logo {
+    width: 64px;
+    height: 64px;
+
+    font-size: 14px;
+  }
+
+  .featured-league-info h2 {
+    font-size: 21px;
+  }
+
+  .featured-league-stats {
+    gap: 16px;
+  }
+
+  .league-card {
+    padding: 17px;
+  }
+
+  .league-comparison {
+    padding: 17px;
+  }
+}
