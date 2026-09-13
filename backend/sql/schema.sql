@@ -1,10 +1,6 @@
--- =========================================
--- FUTBUD DATABASE SCHEMA
--- Core tables
--- =========================================
 
 
--- Remove our early test tables
+
 DROP TABLE IF EXISTS players CASCADE;
 DROP TABLE IF EXISTS teams CASCADE;
 
@@ -13,11 +9,6 @@ DROP TABLE IF EXISTS player_team_history CASCADE;
 DROP TABLE IF EXISTS league_seasons CASCADE;
 DROP TABLE IF EXISTS leagues CASCADE;
 
-
--- =========================================
--- LEAGUES
--- API-Football league ID is our ID
--- =========================================
 
 CREATE TABLE leagues (
     id INTEGER PRIMARY KEY,
@@ -30,12 +21,6 @@ CREATE TABLE leagues (
     country_flag_url TEXT
 );
 
-
--- =========================================
--- LEAGUE SEASONS
--- Example:
--- Premier League + 2026
--- =========================================
 
 CREATE TABLE league_seasons (
     league_id INTEGER NOT NULL,
@@ -52,11 +37,6 @@ CREATE TABLE league_seasons (
         ON DELETE CASCADE
 );
 
-
--- =========================================
--- TEAMS
--- API-Football team ID is our ID
--- =========================================
 
 CREATE TABLE teams (
     id INTEGER PRIMARY KEY,
@@ -78,10 +58,6 @@ CREATE TABLE teams (
 );
 
 
--- =========================================
--- PLAYERS
--- API-Football player ID is our ID
--- =========================================
 
 CREATE TABLE players (
     id INTEGER PRIMARY KEY,
@@ -105,15 +81,6 @@ CREATE TABLE players (
 );
 
 
--- =========================================
--- PLAYER TEAM HISTORY
---
--- Handles transfers during a season.
---
--- Example:
--- Player starts at Chelsea,
--- moves to Arsenal in January.
--- =========================================
 
 CREATE TABLE player_team_history (
     id BIGSERIAL PRIMARY KEY,
@@ -139,10 +106,6 @@ CREATE TABLE player_team_history (
 );
 
 
--- =========================================
--- MATCHES
--- API-Football fixture ID is our ID
--- =========================================
 
 CREATE TABLE matches (
     id INTEGER PRIMARY KEY,
@@ -190,12 +153,6 @@ CREATE TABLE matches (
     FOREIGN KEY (away_team_id)
         REFERENCES teams(id)
 );
-
-
--- =========================================
--- INDEXES
--- These make common searches faster
--- =========================================
 
 CREATE INDEX idx_matches_date
 ON matches(match_date);

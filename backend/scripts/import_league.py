@@ -1,3 +1,4 @@
+import argparse
 import os
 
 import psycopg
@@ -33,7 +34,22 @@ API_URL = (
 )
 
 
+def get_args():
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--season",
+        type=int,
+        default=SEASON,
+        help="Season year to import",
+    )
+
+    return parser.parse_args()
+
+
 def get_connection():
+
     return psycopg.connect(
         dbname=DB_NAME,
         user=DB_USER,
@@ -44,6 +60,20 @@ def get_connection():
 
 
 def main():
+
+    args = get_args()
+
+    target_season = args.season
+
+    print()
+
+    print(
+        f"Importing Top-5 league data "
+        f"for season {target_season}..."
+    )
+
+    print()
+
     connection = get_connection()
     cursor = connection.cursor()
 
@@ -65,39 +95,83 @@ def main():
                     API_KEY
             },
             params={
-                "id": league_id,
-                "season": SEASON,
+                "id":
+                    league_id,
+
+                "season":
+                    target_season,
             },
             timeout=30,
         )
 
-        response.raise_for_status()
+        if not response.ok:
+
+            print(
+                f"Request failed for "
+                f"{league_config['name']}"
+            )
+
+            print(
+                "Status:",
+                response.status_code,
+            )
+
+            print(
+                response.text
+            )
+
+            continue
 
         data = response.json()
 
         if data.get("errors"):
-            print(data["errors"])
+
+            print(
+                f"API error for "
+                f"{league_config['name']}:",
+                data["errors"],
+            )
+
             continue
 
-        if not data["response"]:
+        response_data = (
+            data.get("response")
+            or []
+        )
+
+        if not response_data:
+
             print(
                 "No league data returned."
             )
+
             continue
 
-        result = data["response"][0]
+        result = response_data[0]
 
-        league = result["league"]
-        country = result["country"]
+        league = (
+            result.get("league")
+            or {}
+        )
+
+        country = (
+            result.get("country")
+            or {}
+        )
 
         season_data = None
 
-        for season in result["seasons"]:
+        for season_info in (
+            result.get("seasons")
+            or []
+        ):
+
             if (
-                season["year"]
-                == SEASON
+                season_info.get("year")
+                ==
+                target_season
             ):
-                season_data = season
+                season_data = season_info
                 break
 
         cursor.execute(
@@ -110,27 +184,33 @@ def main():
                 logo_url,
                 country_flag_url
             )
+
             VALUES (
                 %s, %s, %s,
                 %s, %s, %s
             )
 
             ON CONFLICT (id)
+
             DO UPDATE SET
                 name =
                     EXCLUDED.name,
+
                 country =
                     EXCLUDED.country,
+
                 type =
                     EXCLUDED.type,
+
                 logo_url =
                     EXCLUDED.logo_url,
+
                 country_flag_url =
                     EXCLUDED.country_flag_url;
             """,
             (
-                league["id"],
-                league["name"],
+                league.get("id"),
+                league.get("name"),
                 country.get("name"),
                 league.get("type"),
                 league.get("logo"),
@@ -138,51 +218,67 @@ def main():
             ),
         )
 
-        if season_data:
-            cursor.execute(
-                """
-                INSERT INTO league_seasons (
-                    league_id,
-                    season,
-                    start_date,
-                    end_date,
-                    is_current
-                )
-                VALUES (
-                    %s, %s, %s,
-                    %s, %s
-                )
+        if season_data is None:
 
-                ON CONFLICT (
-                    league_id,
-                    season
-                )
-                DO UPDATE SET
-                    start_date =
-                        EXCLUDED.start_date,
-                    end_date =
-                        EXCLUDED.end_date,
-                    is_current =
-                        EXCLUDED.is_current;
-                """,
-                (
-                    league["id"],
-                    SEASON,
-                    season_data.get(
-                        "start"
-                    ),
-                    season_data.get(
-                        "end"
-                    ),
-                    season_data.get(
-                        "current",
-                        False,
-                    ),
-                ),
+            print(
+                f"No season metadata found "
+                f"for {target_season}."
             )
 
+            continue
+
+        cursor.execute(
+            """
+            INSERT INTO league_seasons (
+                league_id,
+                season,
+                start_date,
+                end_date,
+                is_current
+            )
+
+            VALUES (
+                %s, %s, %s,
+                %s, %s
+            )
+
+            ON CONFLICT (
+                league_id,
+                season
+            )
+
+            DO UPDATE SET
+                start_date =
+                    EXCLUDED.start_date,
+
+                end_date =
+                    EXCLUDED.end_date,
+
+                is_current =
+                    EXCLUDED.is_current;
+            """,
+            (
+                league.get("id"),
+                target_season,
+
+                season_data.get(
+                    "start"
+                ),
+
+                season_data.get(
+                    "end"
+                ),
+
+                season_data.get(
+                    "current",
+                    False,
+                ),
+            ),
+        )
+
         print(
-            f"{league['name']} saved."
+            f"{league.get('name')} "
+            f"{target_season} saved."
         )
 
     connection.commit()
@@ -190,8 +286,11 @@ def main():
     cursor.close()
     connection.close()
 
+    print()
+
     print(
-        "All five leagues imported."
+        f"All five leagues for "
+        f"{target_season} imported."
     )
 
 

@@ -1,0 +1,1071 @@
+.player-details-page {
+  width: 100%;
+
+  max-width: 1500px;
+
+  margin: 0 auto;
+
+  padding:
+    18px 24px 35px;
+
+  box-sizing:
+    border-box;
+
+  color: #f5f7fb;
+}
+
+
+/* =========================================
+   PROFILE
+========================================= */
+
+.player-profile-header {
+  display: grid;
+
+  grid-template-columns:
+    180px minmax(0, 1fr);
+
+  gap: 26px;
+
+  margin-bottom: 18px;
+
+  padding-bottom: 20px;
+
+  border-bottom:
+    1px solid #202d39;
+}
+
+
+.player-profile-photo {
+  width: 180px;
+  height: 180px;
+
+  overflow: hidden;
+
+  border-radius: 16px;
+
+  background: #121d28;
+
+  border:
+    1px solid #263544;
+}
+
+
+.player-profile-photo img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+
+.player-photo-placeholder {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  font-size: 40px;
+
+  color: #6e7a86;
+}
+
+
+.player-profile-main {
+  min-width: 0;
+}
+
+
+.player-name-row {
+  display: grid;
+
+  grid-template-columns:
+    minmax(220px, auto)
+    minmax(320px, 560px)
+    75px;
+
+  align-items: center;
+
+  gap: 28px;
+}
+
+.player-name-block {
+  min-width: 0;
+}
+
+
+.futbud-rating-card {
+  display: flex;
+
+  align-items: center;
+
+  min-width: 0;
+  min-height: 86px;
+
+  padding:
+    12px 18px;
+
+  box-sizing:
+    border-box;
+
+  background:
+    linear-gradient(
+      135deg,
+      #111d29,
+      #0d1721
+    );
+
+  border:
+    1px solid #2b3c49;
+
+  border-radius: 12px;
+}
+
+
+.futbud-rating-left {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 105px;
+}
+
+
+.futbud-rating-label {
+  margin-bottom: 3px;
+
+  color: #5fdd9c;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.09em;
+
+  text-transform: uppercase;
+}
+
+
+.futbud-rating-number {
+  color: #f4f8fb;
+
+  font-size: 34px;
+
+  line-height: 1;
+}
+
+
+.futbud-rating-divider {
+  width: 1px;
+  height: 48px;
+
+  margin:
+    0 18px;
+
+  flex-shrink: 0;
+
+  background: #2a3947;
+}
+
+
+.futbud-rating-details {
+  display: flex;
+
+  flex-direction: column;
+
+  min-width: 0;
+
+  gap: 8px;
+}
+
+
+.futbud-archetype {
+  overflow: hidden;
+
+  color: #eef3f6;
+
+  font-size: 15px;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+.futbud-rating-meta {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+}
+
+
+.futbud-rating-meta span {
+  padding:
+    4px 7px;
+
+  border-radius: 6px;
+
+  background: #17232e;
+
+  color: #9aa6b2;
+
+  font-size: 9px;
+}
+
+
+.futbud-rating-meta span:first-child {
+  color: #5fdd9c;
+}
+
+
+.futbud-unrated {
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  width: 100%;
+
+  gap: 3px;
+}
+
+
+.futbud-unrated strong {
+  color: #dce3e8;
+
+  font-size: 15px;
+}
+
+
+.futbud-unrated small {
+  color: #72808d;
+
+  font-size: 9px;
+}
+
+
+.player-name-row h1 {
+  margin:
+    8px 0 8px;
+
+  font-size: 38px;
+
+  line-height: 1.05;
+}
+
+
+.player-subtitle {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 9px;
+}
+
+
+.player-subtitle span {
+  padding:
+    5px 9px;
+
+  border-radius: 7px;
+
+  background: #121d28;
+
+  color: #adb7c2;
+
+  font-size: 12px;
+}
+
+
+.player-club-logo {
+  width: 75px;
+  height: 75px;
+
+  object-fit: contain;
+}
+
+
+.player-profile-info {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(100px, 1fr)
+    );
+
+  margin-top: 37px;
+}
+
+
+.player-profile-info > div {
+  padding:
+    0 18px;
+
+  border-right:
+    1px solid #24313d;
+}
+
+
+.player-profile-info > div:first-child {
+  padding-left: 0;
+}
+
+
+.player-profile-info > div:last-child {
+  border-right: 0;
+}
+
+
+.player-profile-info span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #748190;
+
+  font-size: 11px;
+}
+
+
+.player-profile-info strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: #eef2f5;
+
+  font-size: 14px;
+
+  text-overflow:
+    ellipsis;
+
+  white-space:
+    nowrap;
+}
+
+
+/* =========================================
+   GENERAL PANELS
+========================================= */
+
+.player-panel {
+  min-width: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      #101925,
+      #0c141e
+    );
+
+  border:
+    1px solid #22303e;
+
+  border-radius: 15px;
+
+  overflow: hidden;
+}
+
+
+.player-panel-heading {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding:
+    16px 18px;
+
+  border-bottom:
+    1px solid #22303d;
+}
+
+
+.player-panel-heading h2 {
+  margin:
+    3px 0 0;
+
+  font-size: 17px;
+}
+
+
+.player-eyebrow {
+  color: #5fdd9c;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.09em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.season-label {
+  padding:
+    6px 9px;
+
+  border:
+    1px solid #2a3948;
+
+  border-radius: 7px;
+
+  color: #9ba6b1;
+
+  font-size: 11px;
+}
+
+
+/* =========================================
+   SUMMARY + FORM
+========================================= */
+
+.player-dashboard-top {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+
+  gap: 18px;
+
+  margin-bottom: 18px;
+}
+
+
+.season-summary-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+}
+
+
+.season-summary-grid > div {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 104px;
+
+  padding: 10px;
+
+  border-right:
+    1px solid #202d39;
+
+  border-bottom:
+    1px solid #202d39;
+}
+
+
+.season-summary-grid > div:nth-child(4n) {
+  border-right: 0;
+}
+
+
+.season-summary-grid > div:nth-last-child(-n + 4) {
+  border-bottom: 0;
+}
+
+
+.season-summary-grid strong {
+  margin-bottom: 7px;
+
+  color: #f6f8fb;
+
+  font-size: 25px;
+}
+
+
+.season-summary-grid span {
+  color: #758290;
+
+  font-size: 10px;
+
+  text-align: center;
+}
+
+
+/* =========================================
+   FORM GRAPH
+========================================= */
+
+.form-legend {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 16px;
+
+  padding:
+    12px 18px 0;
+
+  color: #929da8;
+
+  font-size: 10px;
+}
+
+
+.form-legend span {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+}
+
+
+.form-legend i {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+}
+
+
+.goal-legend {
+  background: #55db96;
+}
+
+
+.assist-legend {
+  background: #689cff;
+}
+
+
+.form-chart {
+  height: 145px;
+
+  padding:
+    10px 22px 0;
+}
+
+
+.form-chart svg {
+  width: 100%;
+  height: 100%;
+
+  overflow: visible;
+}
+
+
+.form-grid-line {
+  stroke: #263442;
+
+  stroke-width: 0.4;
+
+  vector-effect:
+    non-scaling-stroke;
+}
+
+
+.form-goals-line,
+.form-assists-line {
+  fill: none;
+
+  stroke-width: 2;
+
+  stroke-linecap: round;
+
+  stroke-linejoin: round;
+
+  vector-effect:
+    non-scaling-stroke;
+}
+
+
+.form-goals-line {
+  stroke: #55db96;
+}
+
+
+.form-assists-line {
+  stroke: #689cff;
+}
+
+
+.form-opponents {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      10,
+      minmax(0, 1fr)
+    );
+
+  gap: 5px;
+
+  padding:
+    0 14px 15px;
+}
+
+
+.form-opponent {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  min-width: 0;
+
+  gap: 5px;
+}
+
+
+.form-opponent img {
+  width: 23px;
+  height: 23px;
+
+  object-fit: contain;
+}
+
+
+.form-opponent span {
+  width: 100%;
+
+  overflow: hidden;
+
+  color: #7e8996;
+
+  font-size: 8px;
+
+  text-align: center;
+
+  text-overflow:
+    ellipsis;
+
+  white-space:
+    nowrap;
+}
+
+
+.player-empty-state {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 180px;
+
+  color: #75818d;
+
+  font-size: 12px;
+}
+
+
+/* =========================================
+   DETAILED STATS
+========================================= */
+
+.detailed-stats-panel {
+  margin-bottom: 18px;
+}
+
+
+.detailed-stats-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      5,
+      minmax(0, 1fr)
+    );
+}
+
+
+.player-stat-group {
+  min-width: 0;
+
+  padding:
+    17px 18px;
+
+  border-right:
+    1px solid #23303c;
+}
+
+
+.player-stat-group:last-child {
+  border-right: 0;
+}
+
+
+.player-stat-group h3 {
+  margin:
+    0 0 13px;
+
+  color: #5fdd9c;
+
+  font-size: 12px;
+}
+
+
+.player-stat-group-list {
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+.player-stat-item {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  min-height: 34px;
+
+  border-bottom:
+    1px solid #1d2934;
+}
+
+
+.player-stat-item:last-child {
+  border-bottom: 0;
+}
+
+
+.player-stat-item span {
+  color: #8995a1;
+
+  font-size: 10px;
+}
+
+
+.player-stat-item strong {
+  color: #f0f3f6;
+
+  font-size: 11px;
+}
+
+
+/* =========================================
+   RECENT MATCHES
+========================================= */
+
+.recent-matches-panel {
+  margin-bottom: 20px;
+}
+
+
+.recent-player-table {
+  width: 100%;
+}
+
+
+.recent-player-row {
+  display: grid;
+
+  grid-template-columns:
+    85px
+    minmax(180px, 1fr)
+    55px
+    45px
+    45px
+    60px
+    55px
+    55px
+    70px
+    75px;
+
+  align-items: center;
+
+  min-height: 48px;
+
+  padding:
+    0 17px;
+
+  box-sizing:
+    border-box;
+
+  border-bottom:
+    1px solid #202d39;
+
+  font-size: 11px;
+}
+
+
+.recent-player-row:last-child {
+  border-bottom: 0;
+}
+
+
+.recent-player-heading {
+  min-height: 35px;
+
+  background: #111b27;
+
+  color: #6f7c89;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  text-transform:
+    uppercase;
+}
+
+
+.recent-opponent {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  min-width: 0;
+}
+
+
+.recent-opponent img {
+  width: 25px;
+  height: 25px;
+
+  flex-shrink: 0;
+
+  object-fit: contain;
+}
+
+
+.recent-opponent strong {
+  overflow: hidden;
+
+  text-overflow:
+    ellipsis;
+
+  white-space:
+    nowrap;
+}
+
+
+.recent-result {
+  display: inline-flex;
+
+  justify-content: center;
+
+  width: fit-content;
+
+  min-width: 48px;
+
+  padding:
+    5px 6px;
+
+  border-radius: 6px;
+
+  font-size: 9px;
+
+  font-weight: 700;
+}
+
+
+.result-win {
+  background:
+    rgba(
+      65,
+      192,
+      123,
+      0.13
+    );
+
+  color: #5fe19d;
+}
+
+
+.result-draw {
+  background:
+    rgba(
+      137,
+      151,
+      166,
+      0.14
+    );
+
+  color: #aeb7c1;
+}
+
+
+.result-loss {
+  background:
+    rgba(
+      220,
+      79,
+      90,
+      0.13
+    );
+
+  color: #ef7680;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (
+  max-width: 1100px
+) {
+
+  .player-dashboard-top {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .detailed-stats-grid {
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .player-stat-group {
+    border-bottom:
+      1px solid #23303c;
+  }
+
+}
+
+
+@media (
+  max-width: 800px
+) {
+
+  .player-profile-header {
+    grid-template-columns:
+      120px minmax(0, 1fr);
+  }
+
+
+  .player-profile-photo {
+    width: 120px;
+    height: 120px;
+  }
+
+
+  .player-name-row h1 {
+    font-size: 27px;
+  }
+
+
+  .player-profile-info {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+
+    gap: 16px;
+
+    margin-top: 22px;
+  }
+
+
+  .player-profile-info > div {
+    padding: 0;
+
+    border-right: 0;
+  }
+
+
+  .detailed-stats-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .recent-player-table {
+    overflow-x: auto;
+  }
+
+
+  .recent-player-row {
+    min-width: 900px;
+  }
+
+}
+
+
+@media (
+  max-width: 550px
+) {
+
+  .player-details-page {
+    padding:
+      12px;
+  }
+
+
+  .player-profile-header {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .player-profile-photo {
+    width: 135px;
+    height: 135px;
+  }
+
+
+  .player-club-logo {
+    width: 55px;
+    height: 55px;
+  }
+
+
+  .season-summary-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .season-summary-grid > div {
+    border-right:
+      1px solid #202d39;
+
+    border-bottom:
+      1px solid #202d39;
+  }
+
+
+  .detailed-stats-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .player-stat-group {
+    border-right: 0;
+  }
+
+}

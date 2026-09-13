@@ -1,6 +1,13 @@
 import "./Home.css";
 
 import {
+  Link as PlayerLink,
+} from "react-router";
+
+import TeamLink
+  from "../../components/TeamLink/TeamLink";
+
+import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
@@ -695,33 +702,18 @@ function Home() {
                           {leagueMatches.map(
                             (match) => (
 
-                              <div
+                              <Link
+                                to={`/matches/${match.id}`}
                                 className="home-match-row"
-                                key={
-                                  match.id
-                                }
+                                key={match.id}
                               >
 
-                                <div className="home-match-team home-match-home">
-
-                                  <span>
-                                    {
-                                      match
-                                        .homeTeam
-                                        .name
-                                    }
-                                  </span>
-
-                                  <img
-                                    src={
-                                      match
-                                        .homeTeam
-                                        .logoUrl
-                                    }
-                                    alt=""
-                                  />
-
-                                </div>
+                                <TeamLink
+                                  teamId={match.homeTeam.id}
+                                  name={match.homeTeam.name}
+                                  logoUrl={match.homeTeam.logoUrl}
+                                  className="home-match-team home-match-home"
+                                />
 
 
                                 <div className="home-match-center">
@@ -770,28 +762,14 @@ function Home() {
                                 </div>
 
 
-                                <div className="home-match-team home-match-away">
+                                <TeamLink
+                                  teamId={match.awayTeam.id}
+                                  name={match.awayTeam.name}
+                                  logoUrl={match.awayTeam.logoUrl}
+                                  className="home-match-team home-match-away"
+                                />
 
-                                  <img
-                                    src={
-                                      match
-                                        .awayTeam
-                                        .logoUrl
-                                    }
-                                    alt=""
-                                  />
-
-                                  <span>
-                                    {
-                                      match
-                                        .awayTeam
-                                        .name
-                                    }
-                                  </span>
-
-                                </div>
-
-                              </div>
+                              </Link>
 
                             )
                           )}
@@ -884,12 +862,10 @@ function Home() {
                   index
                 ) => (
 
-                  <div
+                  <PlayerLink
+                    to={`/players/${leader.player.id}`}
                     className="home-leader-row"
-                    key={
-                      leader.player
-                        .id
-                    }
+                    key={leader.player.id}
                   >
 
                     <span className="leader-rank">
@@ -963,7 +939,7 @@ function Home() {
 
                     </div>
 
-                  </div>
+                  </PlayerLink>
 
                 )
               )

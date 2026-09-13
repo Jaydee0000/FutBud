@@ -1,3 +1,5 @@
+import os
+
 import psycopg
 
 from fastapi import FastAPI
@@ -21,11 +23,11 @@ app.add_middleware(
 
 def get_connection():
     return psycopg.connect(
-        dbname="futbud",
-        user="futbud_user",
-        password="Adid@s1738",
-        host="localhost",
-        port="5432",
+        dbname=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        host=os.getenv("DB_HOST"),
+        port=os.getenv("DB_PORT"),
     )
 
 

@@ -1,3 +1,4 @@
+import argparse
 import os
 import time
 
@@ -30,7 +31,22 @@ API_URL = (
 )
 
 
+def get_args():
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--season",
+        type=int,
+        default=SEASON,
+        help="Season year to import",
+    )
+
+    return parser.parse_args()
+
+
 def get_connection():
+
     return psycopg.connect(
         dbname=DB_NAME,
         user=DB_USER,
@@ -41,6 +57,7 @@ def get_connection():
 
 
 def parse_percentage(value):
+
     if value is None:
         return None
 
@@ -62,11 +79,17 @@ def parse_percentage(value):
     try:
         return int(float(value))
 
-    except ValueError:
+    except (
+        ValueError,
+        TypeError,
+    ):
         return None
 
 
-def get_completed_matches():
+def get_completed_matches(
+    season,
+):
+
     connection = get_connection()
     cursor = connection.cursor()
 
@@ -97,7 +120,7 @@ def get_completed_matches():
         ORDER BY matches.match_date;
         """,
         (
-            SEASON,
+            season,
             LEAGUE_IDS,
         ),
     )
@@ -111,8 +134,9 @@ def get_completed_matches():
 
 
 def fetch_player_stats(
-    fixture_id
+    fixture_id,
 ):
+
     response = requests.get(
         API_URL,
         headers={
@@ -135,7 +159,7 @@ def fetch_player_stats(
 
         print(
             "Status:",
-            response.status_code
+            response.status_code,
         )
 
         print(
@@ -144,20 +168,17 @@ def fetch_player_stats(
 
         return None
 
-
     data = response.json()
-
 
     if data.get("errors"):
 
         print(
             f"API error for fixture "
             f"{fixture_id}:",
-            data["errors"]
+            data["errors"],
         )
 
         return None
-
 
     return (
         data.get("response")
@@ -167,13 +188,13 @@ def fetch_player_stats(
 
 def save_fixture_stats(
     fixture_id,
-    team_blocks
+    team_blocks,
 ):
+
     connection = get_connection()
     cursor = connection.cursor()
 
     saved = 0
-
 
     for team_block in team_blocks:
 
@@ -187,12 +208,10 @@ def save_fixture_stats(
         if team_id is None:
             continue
 
-
         players = (
             team_block.get("players")
             or []
         )
-
 
         for player_item in players:
 
@@ -206,10 +225,8 @@ def save_fixture_stats(
             if player_id is None:
                 continue
 
-
             # Make sure the player exists
             # before inserting stats.
-
             cursor.execute(
                 """
                 INSERT INTO players (
@@ -246,7 +263,6 @@ def save_fixture_stats(
                 ),
             )
 
-
             statistics_list = (
                 player_item.get(
                     "statistics"
@@ -254,13 +270,10 @@ def save_fixture_stats(
                 or []
             )
 
-
             if not statistics_list:
                 continue
 
-
             stats = statistics_list[0]
-
 
             games = (
                 stats.get("games")
@@ -312,7 +325,6 @@ def save_fixture_stats(
                 or {}
             )
 
-
             rating = games.get("rating")
 
             if rating is not None:
@@ -324,10 +336,9 @@ def save_fixture_stats(
 
                 except (
                     ValueError,
-                    TypeError
+                    TypeError,
                 ):
                     rating = None
-
 
             cursor.execute(
                 """
@@ -583,6 +594,7 @@ def save_fixture_stats(
                     dribbles.get("past"),
 
                     fouls.get("drawn"),
+
                     fouls.get(
                         "committed"
                     ),
@@ -592,8 +604,8 @@ def save_fixture_stats(
 
                     penalty.get("won"),
 
-                    # API-Football spells this
-                    # field "commited"
+                    # API-Football spells
+                    # this field "commited".
                     penalty.get(
                         "commited"
                     ),
@@ -614,7 +626,6 @@ def save_fixture_stats(
 
             saved += 1
 
-
     connection.commit()
 
     cursor.close()
@@ -625,33 +636,38 @@ def save_fixture_stats(
 
 def main():
 
+    args = get_args()
+
+    season = args.season
+
     completed_matches = (
-        get_completed_matches()
+        get_completed_matches(
+            season
+        )
     )
 
-
     print()
+
     print(
         f"Found "
         f"{len(completed_matches)} "
-        f"completed matches across "
+        f"completed matches for "
+        f"season {season} across "
         f"all tracked leagues."
     )
-    print()
 
+    print()
 
     total_saved = 0
 
-
     for index, match in enumerate(
         completed_matches,
-        start=1
+        start=1,
     ):
 
         fixture_id = match[0]
         league_name = match[1]
         match_date = match[2]
-
 
         print(
             f"[{index}/"
@@ -661,13 +677,11 @@ def main():
             f"{match_date}"
         )
 
-
         team_blocks = (
             fetch_player_stats(
                 fixture_id
             )
         )
-
 
         if team_blocks is None:
 
@@ -676,7 +690,6 @@ def main():
             )
 
             continue
-
 
         if not team_blocks:
 
@@ -687,27 +700,23 @@ def main():
 
             continue
 
-
         saved = save_fixture_stats(
             fixture_id,
             team_blocks,
         )
 
-
         total_saved += saved
-
 
         print(
             f"  {saved} player "
             f"stat rows saved."
         )
 
-
         # Small delay between API calls.
         time.sleep(0.25)
 
-
     print()
+
     print(
         "=============================="
     )
@@ -715,6 +724,15 @@ def main():
     print(
         "Player match stats import "
         "complete."
+    )
+
+    print(
+        f"Season: {season}"
+    )
+
+    print(
+        f"Matches processed: "
+        f"{len(completed_matches)}"
     )
 
     print(

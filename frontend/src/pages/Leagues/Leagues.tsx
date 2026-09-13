@@ -1,5 +1,9 @@
 import "./Leagues.css";
 import { Link } from "react-router";
+import {
+  Link as PlayerLink,
+  useParams,
+} from "react-router";
 
 interface League {
   id: string;

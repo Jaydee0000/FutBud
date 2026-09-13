@@ -1,33 +1,57 @@
+import {
+  Link as RouterLink,
+} from "react-router";
+
 import "./TeamLink.css";
-import { Link } from "react-router";
+
 
 interface TeamLinkProps {
-  id: string;
+  teamId: number;
+
   name: string;
-  shortName?: string;
+
+  logoUrl?: string | null;
+
+  className?: string;
+
   showLogo?: boolean;
 }
 
+
 function TeamLink({
-  id,
+  teamId,
   name,
-  shortName,
-  showLogo = false,
+  logoUrl,
+  className = "",
+  showLogo = true,
 }: TeamLinkProps) {
+
   return (
-    <Link
-      to={`/teams/${id}`}
-      className="team-link"
+    <RouterLink
+      to={`/teams/${teamId}`}
+      className={
+        `team-link ${className}`
+      }
     >
-      {showLogo && (
-        <div className="team-link-logo">
-          {shortName}
-        </div>
+
+      {showLogo && logoUrl && (
+
+        <img
+          src={logoUrl}
+          alt=""
+          className="team-link-logo"
+        />
+
       )}
 
-      <span>{name}</span>
-    </Link>
+
+      <span>
+        {name}
+      </span>
+
+    </RouterLink>
   );
 }
+
 
 export default TeamLink;

@@ -2,6 +2,7 @@ import "./Header.css";
 
 import { useState } from "react";
 import { NavLink } from "react-router";
+import GlobalSearch from "../GlobalSearch/GlobalSearch";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -27,37 +28,12 @@ function Header() {
             Home
           </NavLink>
 
-          <NavLink to="/players" onClick={closeMenu}>
-            Players
-          </NavLink>
-
-          <NavLink to="/teams" onClick={closeMenu}>
-            Teams
-          </NavLink>
-
-          <NavLink to="/leagues" onClick={closeMenu}>
-            Leagues
-          </NavLink>
-
-          <NavLink to="/matches" onClick={closeMenu}>
-            Matches
-          </NavLink>
-
           <NavLink to="/rankings" onClick={closeMenu}>
             Rankings
           </NavLink>
         </nav>
 
-        <div className="header-search">
-          <input
-            type="text"
-            placeholder="Search players, teams..."
-          />
-
-          <button type="button">
-            Search
-          </button>
-        </div>
+        <GlobalSearch />
 
         <button
           className="menu-button"

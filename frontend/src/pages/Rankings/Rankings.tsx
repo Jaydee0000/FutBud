@@ -1,653 +1,607 @@
 import "./Rankings.css";
 
-interface RankedPlayer {
-  rank: number;
-  name: string;
-  team: string;
-  position: string;
-  rating: number;
-  change: number;
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  Link as RouterLink,
+} from "react-router";
+
+import {
+  getPlayerRankings,
+  type PlayerRankingsResponse,
+  type RankedFutBudPlayer,
+} from "../../services/rankingService.ts";
+
+
+type RankingLimit =
+  25
+  | 50
+  | 100;
+
+
+function initials(
+  name: string
+) {
+
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .map(
+      word => word[0]
+    )
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 }
 
-interface PositionPlayer {
-  name: string;
-  team: string;
-  rating: number;
-}
 
-interface RankedTeam {
-  rank: number;
-  name: string;
-  shortName: string;
-  rating: number;
-  change: number;
-}
+function statusClass(
+  status: string | null
+) {
 
-const playerRankings: RankedPlayer[] = [
-  {
-    rank: 1,
-    name: "Cole Palmer",
-    team: "Chelsea",
-    position: "AM",
-    rating: 92,
-    change: 2,
-  },
-  {
-    rank: 2,
-    name: "Erling Haaland",
-    team: "Manchester City",
-    position: "ST",
-    rating: 91,
-    change: 0,
-  },
-  {
-    rank: 3,
-    name: "Mohamed Salah",
-    team: "Liverpool",
-    position: "RW",
-    rating: 90,
-    change: -1,
-  },
-  {
-    rank: 4,
-    name: "Bukayo Saka",
-    team: "Arsenal",
-    position: "RW",
-    rating: 89,
-    change: 1,
-  },
-  {
-    rank: 5,
-    name: "Declan Rice",
-    team: "Arsenal",
-    position: "CM",
-    rating: 88,
-    change: 3,
-  },
-  {
-    rank: 6,
-    name: "Virgil van Dijk",
-    team: "Liverpool",
-    position: "CB",
-    rating: 88,
-    change: -2,
-  },
-  {
-    rank: 7,
-    name: "Alexander Isak",
-    team: "Newcastle",
-    position: "ST",
-    rating: 87,
-    change: 1,
-  },
-  {
-    rank: 8,
-    name: "William Saliba",
-    team: "Arsenal",
-    position: "CB",
-    rating: 87,
-    change: 0,
-  },
-  {
-    rank: 9,
-    name: "Phil Foden",
-    team: "Manchester City",
-    position: "AM",
-    rating: 86,
-    change: -3,
-  },
-  {
-    rank: 10,
-    name: "Alisson",
-    team: "Liverpool",
-    position: "GK",
-    rating: 86,
-    change: 2,
-  },
-];
-
-const forwards: PositionPlayer[] = [
-  {
-    name: "Erling Haaland",
-    team: "Manchester City",
-    rating: 91,
-  },
-  {
-    name: "Mohamed Salah",
-    team: "Liverpool",
-    rating: 90,
-  },
-  {
-    name: "Bukayo Saka",
-    team: "Arsenal",
-    rating: 89,
-  },
-];
-
-const midfielders: PositionPlayer[] = [
-  {
-    name: "Cole Palmer",
-    team: "Chelsea",
-    rating: 92,
-  },
-  {
-    name: "Declan Rice",
-    team: "Arsenal",
-    rating: 88,
-  },
-  {
-    name: "Phil Foden",
-    team: "Manchester City",
-    rating: 86,
-  },
-];
-
-const defenders: PositionPlayer[] = [
-  {
-    name: "Virgil van Dijk",
-    team: "Liverpool",
-    rating: 88,
-  },
-  {
-    name: "William Saliba",
-    team: "Arsenal",
-    rating: 87,
-  },
-  {
-    name: "Gabriel",
-    team: "Arsenal",
-    rating: 85,
-  },
-];
-
-const goalkeepers: PositionPlayer[] = [
-  {
-    name: "Alisson",
-    team: "Liverpool",
-    rating: 86,
-  },
-  {
-    name: "David Raya",
-    team: "Arsenal",
-    rating: 85,
-  },
-  {
-    name: "Ederson",
-    team: "Manchester City",
-    rating: 84,
-  },
-];
-
-const risers = [
-  {
-    name: "Cole Palmer",
-    team: "Chelsea",
-    change: 5,
-  },
-  {
-    name: "Declan Rice",
-    team: "Arsenal",
-    change: 4,
-  },
-  {
-    name: "Alexander Isak",
-    team: "Newcastle",
-    change: 3,
-  },
-  {
-    name: "Alisson",
-    team: "Liverpool",
-    change: 3,
-  },
-];
-
-const fallers = [
-  {
-    name: "Player One",
-    team: "Manchester United",
-    change: -6,
-  },
-  {
-    name: "Player Two",
-    team: "Tottenham",
-    change: -5,
-  },
-  {
-    name: "Player Three",
-    team: "Chelsea",
-    change: -4,
-  },
-  {
-    name: "Player Four",
-    team: "Aston Villa",
-    change: -3,
-  },
-];
-
-const teamRankings: RankedTeam[] = [
-  {
-    rank: 1,
-    name: "Arsenal",
-    shortName: "ARS",
-    rating: 91,
-    change: 1,
-  },
-  {
-    rank: 2,
-    name: "Liverpool",
-    shortName: "LIV",
-    rating: 89,
-    change: -1,
-  },
-  {
-    rank: 3,
-    name: "Manchester City",
-    shortName: "MCI",
-    rating: 88,
-    change: 0,
-  },
-  {
-    rank: 4,
-    name: "Chelsea",
-    shortName: "CHE",
-    rating: 85,
-    change: 2,
-  },
-  {
-    rank: 5,
-    name: "Newcastle",
-    shortName: "NEW",
-    rating: 82,
-    change: 0,
-  },
-];
-
-function Movement({ change }: { change: number }) {
-  if (change > 0) {
-    return (
-      <span className="ranking-change up">
-        ↑ {change}
-      </span>
-    );
+  if (!status) {
+    return "";
   }
 
-  if (change < 0) {
-    return (
-      <span className="ranking-change down">
-        ↓ {Math.abs(change)}
-      </span>
+  return status
+    .toLowerCase()
+    .replaceAll(" ", "-");
+}
+
+
+function formatSeason(
+  season: number
+) {
+
+  const nextYear =
+    String(
+      (season + 1) % 100
+    ).padStart(
+      2,
+      "0"
     );
-  }
+
+  return `${season}/${nextYear}`;
+}
+
+
+function PlayerAvatar({
+  player,
+}: {
+  player: RankedFutBudPlayer;
+}) {
 
   return (
-    <span className="ranking-change neutral">
-      —
-    </span>
+    <div className="ranking-avatar">
+
+      {player.photoUrl ? (
+
+        <img
+          src={player.photoUrl}
+          alt=""
+        />
+
+      ) : (
+
+        <span>
+          {initials(player.name)}
+        </span>
+
+      )}
+
+    </div>
   );
 }
+
 
 function PositionCard({
   title,
   players,
 }: {
   title: string;
-  players: PositionPlayer[];
+  players: RankedFutBudPlayer[];
 }) {
+
   return (
     <section className="position-ranking-card">
-      <h2>{title}</h2>
+
+      <div className="position-card-heading">
+
+        <div>
+          <span>
+            FutBud Rating
+          </span>
+
+          <h2>
+            {title}
+          </h2>
+        </div>
+
+        <span className="position-card-count">
+          Top {players.length}
+        </span>
+
+      </div>
+
 
       <div className="position-ranking-list">
-        {players.map((player, index) => (
-          <div
-            className="position-ranking-row"
-            key={player.name}
-          >
-            <span className="position-rank">
-              {index + 1}
-            </span>
 
-            <div className="ranking-avatar">
-              {player.name
-                .split(" ")
-                .map((word) => word[0])
-                .join("")
-                .slice(0, 2)}
-            </div>
+        {players.map(
+          (
+            player,
+            index
+          ) => (
 
-            <div className="position-player-info">
-              <strong>{player.name}</strong>
-              <span>{player.team}</span>
-            </div>
+            <RouterLink
+              to={`/players/${player.id}`}
+              className="position-ranking-row"
+              key={player.id}
+            >
 
-            <strong className="position-rating">
-              {player.rating}
-            </strong>
-          </div>
-        ))}
+              <span className="position-rank">
+                {index + 1}
+              </span>
+
+
+              <PlayerAvatar
+                player={player}
+              />
+
+
+              <div className="position-player-info">
+
+                <strong>
+                  {player.name}
+                </strong>
+
+                <span>
+                  {
+                    player.archetype
+                    || player.position
+                    || "Player"
+                  }
+                </span>
+
+              </div>
+
+
+              <strong className="position-rating">
+                {
+                  player.rating !== null
+                    ? player.rating.toFixed(1)
+                    : "—"
+                }
+              </strong>
+
+            </RouterLink>
+
+          )
+        )}
+
       </div>
+
     </section>
   );
 }
 
+
 function Rankings() {
+
+  const [rankings, setRankings] =
+    useState<PlayerRankingsResponse | null>(
+      null
+    );
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState<string | null>(null);
+
+  const [limit, setLimit] =
+    useState<RankingLimit>(25);
+
+  const season = 2026;
+
+
+  useEffect(() => {
+
+    setLoading(true);
+    setError(null);
+
+    getPlayerRankings(
+      season,
+      limit
+    )
+      .then(
+        data => {
+          setRankings(data);
+        }
+      )
+      .catch(
+        error => {
+
+          console.error(
+            "Rankings error:",
+            error
+          );
+
+          setError(
+            error instanceof Error
+              ? error.message
+              : "Unable to load rankings."
+          );
+        }
+      )
+      .finally(
+        () => {
+          setLoading(false);
+        }
+      );
+
+  }, [limit]);
+
+
+  if (loading) {
+
+    return (
+      <main className="rankings-page">
+        <div className="rankings-state">
+          Loading FutBud rankings...
+        </div>
+      </main>
+    );
+  }
+
+
+  if (
+    error
+    || !rankings
+  ) {
+
+    return (
+      <main className="rankings-page">
+
+        <div className="rankings-state error">
+          <strong>
+            Rankings unavailable
+          </strong>
+
+          <span>
+            {
+              error
+              || "Unable to load FutBud rankings."
+            }
+          </span>
+        </div>
+
+      </main>
+    );
+  }
+
+
   return (
     <main className="rankings-page">
 
-      {/* HEADING */}
+      {/* =========================================
+          HEADER
+      ========================================== */}
 
       <div className="rankings-heading">
+
         <div>
-          <h1>Rankings</h1>
+
+          <span className="rankings-kicker">
+            FutBud Ratings
+          </span>
+
+          <h1>
+            Player Power Rankings
+          </h1>
 
           <p>
-            FutBud player and team power rankings.
+            FutBud's highest-rated players across the top five leagues.
           </p>
+
         </div>
 
-        <div className="ranking-filters">
-          <select defaultValue="premier-league">
-            <option value="premier-league">
-              Premier League
+
+        <div className="ranking-controls">
+
+          <div className="ranking-season-chip">
+            {formatSeason(rankings.season)}
+          </div>
+
+          <select
+            value={limit}
+            onChange={
+              event =>
+                setLimit(
+                  Number(
+                    event.target.value
+                  ) as RankingLimit
+                )
+            }
+            aria-label="Number of rankings to show"
+          >
+            <option value={25}>
+              Top 25
             </option>
 
-            <option value="la-liga">
-              La Liga
+            <option value={50}>
+              Top 50
             </option>
 
-            <option value="bundesliga">
-              Bundesliga
-            </option>
-
-            <option value="serie-a">
-              Serie A
-            </option>
-
-            <option value="ligue-1">
-              Ligue 1
+            <option value={100}>
+              Top 100
             </option>
           </select>
 
-          <select defaultValue="2026">
-            <option value="2026">
-              2026/27 Season
-            </option>
-          </select>
         </div>
+
       </div>
 
 
-      {/* PLAYER POWER RANKINGS */}
+      {/* =========================================
+          OVERALL RANKINGS
+      ========================================== */}
 
       <section className="ranking-card player-power-card">
 
         <div className="ranking-section-heading">
+
           <div>
+
             <p className="ranking-label">
-              FutBud Ratings
+              Overall
             </p>
 
             <h2>
-              Player Power Rankings
+              FutBud Player Rankings
             </h2>
+
           </div>
 
-          <span>
-            Updated Weekly
-          </span>
+
+          <div className="ranking-method-note">
+            Minimum {rankings.minimumMinutes} minutes
+          </div>
+
         </div>
 
-        <div className="player-ranking-table">
 
-          <div className="player-ranking-row ranking-table-header">
-            <span>#</span>
-            <span>Player</span>
-            <span>Position</span>
-            <span>Rating</span>
-            <span>Change</span>
-          </div>
+        <div className="player-ranking-table-wrap">
 
-          {playerRankings.map((player) => (
-            <div
-              className="player-ranking-row"
-              key={player.name}
-            >
-              <strong className="ranking-number">
-                {player.rank}
-              </strong>
+          <div className="player-ranking-table">
 
-              <div className="ranked-player">
-                <div className="ranking-avatar">
-                  {player.name
-                    .split(" ")
-                    .map((word) => word[0])
-                    .join("")
-                    .slice(0, 2)}
-                </div>
+            <div className="player-ranking-row ranking-table-header">
+              <span>#</span>
+              <span>Player</span>
+              <span>Play Style</span>
+              <span>Rating</span>
+              <span>Role Pct.</span>
+              <span>Status</span>
+            </div>
 
-                <div>
-                  <strong>
-                    {player.name}
+
+            {rankings.overall.map(
+              player => (
+
+                <RouterLink
+                  to={`/players/${player.id}`}
+                  className="player-ranking-row player-ranking-link"
+                  key={player.id}
+                >
+
+                  <strong className="ranking-number">
+                    {player.rank}
                   </strong>
 
-                  <span>
-                    {player.team}
+
+                  <div className="ranked-player">
+
+                    <PlayerAvatar
+                      player={player}
+                    />
+
+
+                    <div className="ranked-player-info">
+
+                      <strong>
+                        {player.name}
+                      </strong>
+
+                      <div className="ranked-player-team">
+
+                        {player.team?.logoUrl && (
+                          <img
+                            src={player.team.logoUrl}
+                            alt=""
+                          />
+                        )}
+
+                        <span>
+                          {
+                            player.team?.name
+                            || "No club"
+                          }
+                        </span>
+
+                        {player.league?.name && (
+                          <span className="ranking-league-name">
+                            {player.league.name}
+                          </span>
+                        )}
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+                  <div className="ranking-role">
+
+                    <span className="ranking-position">
+                      {
+                        player.position
+                        || "—"
+                      }
+                    </span>
+
+                    <span className="ranking-archetype">
+                      {
+                        player.archetype
+                        || "—"
+                      }
+                    </span>
+
+                  </div>
+
+
+                  <strong className="ranking-rating">
+                    {
+                      player.rating !== null
+                        ? player.rating.toFixed(1)
+                        : "—"
+                    }
+                  </strong>
+
+
+                  <div className="ranking-percentile">
+
+                    <strong>
+                      {
+                        player.percentile !== null
+                          ? player.percentile.toFixed(1)
+                          : "—"
+                      }
+                    </strong>
+
+                    <span>
+                      percentile
+                    </span>
+
+                  </div>
+
+
+                  <span
+                    className={
+                      `ranking-status ${
+                        statusClass(
+                          player.status
+                        )
+                      }`
+                    }
+                  >
+                    {
+                      player.status
+                      || "Unrated"
+                    }
                   </span>
-                </div>
-              </div>
 
-              <span className="ranking-position">
-                {player.position}
-              </span>
+                </RouterLink>
 
-              <strong className="ranking-rating">
-                {player.rating}
-              </strong>
+              )
+            )}
 
-              <Movement
-                change={player.change}
-              />
-            </div>
-          ))}
+          </div>
 
         </div>
+
       </section>
 
 
-      {/* POSITION RANKINGS */}
+      {/* =========================================
+          TOP BY POSITION
+      ========================================== */}
 
       <section className="position-section">
 
         <div className="rankings-subheading">
-          <h2>
-            Top by Position
-          </h2>
+
+          <div>
+            <span className="rankings-kicker">
+              Position Leaders
+            </span>
+
+            <h2>
+              Top by Position
+            </h2>
+          </div>
 
           <p>
-            Highest-rated players by role.
+            Highest-rated players in each broad FutBud position group.
           </p>
+
         </div>
+
 
         <div className="position-ranking-grid">
 
           <PositionCard
             title="Forwards"
-            players={forwards}
+            players={
+              rankings
+                .byPosition
+                .forwards
+            }
           />
 
           <PositionCard
             title="Midfielders"
-            players={midfielders}
+            players={
+              rankings
+                .byPosition
+                .midfielders
+            }
           />
 
           <PositionCard
             title="Defenders"
-            players={defenders}
+            players={
+              rankings
+                .byPosition
+                .defenders
+            }
           />
 
-          <PositionCard
-            title="Goalkeepers"
-            players={goalkeepers}
-          />
-
-        </div>
-      </section>
-
-
-      {/* RISERS / FALLERS */}
-
-      <section className="movement-grid">
-
-        <div className="ranking-card">
-          <div className="movement-heading">
-            <div>
-              <h2>Biggest Risers</h2>
-
-              <p>
-                Largest ranking gains.
-              </p>
-            </div>
-
-            <span className="movement-arrow up">
-              ↑
-            </span>
-          </div>
-
-          <div className="movement-list">
-            {risers.map((player, index) => (
-              <div
-                className="movement-row"
-                key={player.name}
-              >
-                <span>
-                  {index + 1}
-                </span>
-
-                <div>
-                  <strong>
-                    {player.name}
-                  </strong>
-
-                  <small>
-                    {player.team}
-                  </small>
-                </div>
-
-                <strong className="movement-positive">
-                  +{player.change}
-                </strong>
-              </div>
-            ))}
-          </div>
-        </div>
-
-
-        <div className="ranking-card">
-          <div className="movement-heading">
-            <div>
-              <h2>Biggest Fallers</h2>
-
-              <p>
-                Largest ranking drops.
-              </p>
-            </div>
-
-            <span className="movement-arrow down">
-              ↓
-            </span>
-          </div>
-
-          <div className="movement-list">
-            {fallers.map((player, index) => (
-              <div
-                className="movement-row"
-                key={player.name}
-              >
-                <span>
-                  {index + 1}
-                </span>
-
-                <div>
-                  <strong>
-                    {player.name}
-                  </strong>
-
-                  <small>
-                    {player.team}
-                  </small>
-                </div>
-
-                <strong className="movement-negative">
-                  {player.change}
-                </strong>
-              </div>
-            ))}
-          </div>
         </div>
 
       </section>
 
 
-      {/* TEAM RANKINGS */}
+      {/* =========================================
+          RATING EXPLANATION
+      ========================================== */}
 
-      <section className="ranking-card team-power-card">
+      <section className="ranking-info-card">
 
-        <div className="ranking-section-heading">
-          <div>
-            <p className="ranking-label">
-              Club Ratings
-            </p>
-
-            <h2>
-              Team Power Rankings
-            </h2>
-          </div>
-
-          <span>
-            Premier League
+        <div>
+          <span className="rankings-kicker">
+            FutBud Rating v1
           </span>
+
+          <h2>
+            Role-relative player evaluation
+          </h2>
         </div>
 
-        <div className="team-ranking-list">
+        <p>
+          Players are evaluated against historical players in the same
+          FutBud play style. The rating combines role-specific performance
+          metrics with a minutes reliability adjustment. Goalkeepers are not
+          included in FutBud Rating v1.
+        </p>
 
-          {teamRankings.map((team) => (
-            <div
-              className="team-ranking-row"
-              key={team.name}
-            >
-
-              <strong className="ranking-number">
-                {team.rank}
-              </strong>
-
-              <div className="ranked-team">
-
-                <div className="ranking-team-logo">
-                  {team.shortName}
-                </div>
-
-                <strong>
-                  {team.name}
-                </strong>
-
-              </div>
-
-              <strong className="ranking-rating">
-                {team.rating}
-              </strong>
-
-              <Movement
-                change={team.change}
-              />
-
-            </div>
-          ))}
-
-        </div>
       </section>
 
     </main>
   );
 }
+
 
 export default Rankings;

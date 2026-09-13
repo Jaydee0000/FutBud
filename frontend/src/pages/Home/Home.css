@@ -799,6 +799,25 @@
   text-align: center;
 }
 
+.home-leader-row {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.home-leader-row:hover {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.home-match-row {
+  color: inherit;
+  text-decoration: none;
+}
+
+.home-match-row:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
 
 /* RESPONSIVE */
 
