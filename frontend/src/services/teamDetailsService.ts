@@ -207,8 +207,7 @@ export interface TeamDashboard {
 }
 
 
-const API =
-  "http://127.0.0.1:8000";
+const API = API_URL;
 
 
 export async function getTeamDashboard(
@@ -229,3 +228,4 @@ export async function getTeamDashboard(
 
   return response.json();
 }
+import { API_URL } from "../config/api";

@@ -60,7 +60,7 @@ export async function getMatches(
   }
 
   const response = await fetch(
-    `http://127.0.0.1:8000/matches?${params.toString()}`
+    `${API_URL}/matches?${params.toString()}`
   );
 
   if (!response.ok) {
@@ -71,3 +71,4 @@ export async function getMatches(
 
   return response.json();
 }
+import { API_URL } from "../config/api";

@@ -1,7 +1,6 @@
 import os
 import time
 
-import psycopg
 import requests
 
 from dotenv import load_dotenv
@@ -10,6 +9,7 @@ from football_config import (
     LEAGUE_IDS,
     SEASON,
 )
+from database_config import get_connection
 
 
 load_dotenv()
@@ -17,27 +17,10 @@ load_dotenv()
 
 API_KEY = os.getenv("API_FOOTBALL_KEY")
 
-DB_NAME = os.getenv("DB_NAME")
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-
-
 API_URL = (
     "https://v3.football.api-sports.io"
     "/fixtures/statistics"
 )
-
-
-def get_connection():
-    return psycopg.connect(
-        dbname=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        host=DB_HOST,
-        port=DB_PORT,
-    )
 
 
 def parse_percentage(value):
@@ -111,7 +94,9 @@ def get_completed_matches():
 
 
 def fetch_team_stats(
-    fixture_id
+    fixture_id,
+    *,
+    raise_on_error=False,
 ):
     response = requests.get(
         API_URL,
@@ -127,6 +112,9 @@ def fetch_team_stats(
     )
 
     if not response.ok:
+
+        if raise_on_error:
+            response.raise_for_status()
 
         print(
             f"Fixture {fixture_id} failed."
@@ -148,6 +136,12 @@ def fetch_team_stats(
 
 
     if data.get("errors"):
+
+        if raise_on_error:
+            raise RuntimeError(
+                f"API-Football error for fixture {fixture_id}: "
+                f"{data['errors']}"
+            )
 
         print(
             f"API error for fixture "

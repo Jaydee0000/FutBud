@@ -1,18 +1,13 @@
 import os
 import time
 
-import psycopg
 import requests
 
-from dotenv import load_dotenv
-
+from database_config import get_connection
 from football_config import (
     LEAGUE_IDS,
     SEASON,
 )
-
-
-load_dotenv()
 
 
 API_URL = (
@@ -22,22 +17,6 @@ API_URL = (
 API_KEY = os.getenv(
     "API_FOOTBALL_KEY"
 )
-
-
-def get_connection():
-
-    return psycopg.connect(
-        host=os.getenv("DB_HOST"),
-        port=os.getenv(
-            "DB_PORT",
-            "5432",
-        ),
-        dbname=os.getenv("DB_NAME"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv(
-            "DB_PASSWORD"
-        ),
-    )
 
 
 def get_matches():

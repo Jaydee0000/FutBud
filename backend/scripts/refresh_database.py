@@ -3,33 +3,32 @@ import sys
 import time
 
 
-IMPORTERS = [
-    {
-        "name": "Leagues",
-        "module": "scripts.import_league",
-    },
-    {
-        "name": "Teams",
-        "module": "scripts.import_teams",
-    },
-    {
-        "name": "Players",
-        "module": "scripts.import_players",
-    },
-    {
-        "name": "Squads",
-        "module": "scripts.import_squads",
-    },
+# ============================================================
+# FUTBUD QUICK REFRESH
+#
+# This script updates only frequently-changing data.
+#
+# It intentionally DOES NOT refresh:
+#   - leagues
+#   - teams
+#   - full player list
+#   - full club squads
+#
+# Those should only be refreshed occasionally.
+# ============================================================
+
+
+UPDATE_STAGES = [
     {
         "name": "Matches",
         "module": "scripts.import_matches",
     },
+
     {
         "name": "Matchday Squads",
         "module": "scripts.import_matchday_squads",
     },
 
-    # NEW
     {
         "name": "Match Details",
         "module": "scripts.import_match_details",
@@ -39,18 +38,34 @@ IMPORTERS = [
         "name": "Standings",
         "module": "scripts.import_standings",
     },
+
     {
         "name": "Player Match Stats",
         "module": "scripts.import_player_match_stats",
     },
+
     {
         "name": "Team Match Stats",
         "module": "scripts.import_team_match_stats",
     },
+
+    # Recalculate 2026/27 FutBud ratings
+    # using the frozen 2025/26 models.
+    {
+        "name": "Calculate FutBud Ratings",
+        "module": "ml.predict_current_season",
+    },
+
+    # Push the newly calculated ratings
+    # into PostgreSQL.
+    {
+        "name": "Import FutBud Ratings",
+        "module": "ml.import_current_ratings",
+    },
 ]
 
 
-def run_importer(name, module):
+def run_stage(name, module):
     print()
     print("=" * 60)
     print(f"STARTING: {name}")
@@ -73,7 +88,7 @@ def run_importer(name, module):
         print("=" * 60)
         print(f"FAILED: {name}")
         print(
-            f"Importer exited with code "
+            f"Process exited with code "
             f"{result.returncode}"
         )
         print("=" * 60)
@@ -92,34 +107,42 @@ def run_importer(name, module):
 def main():
     print()
     print("=" * 60)
-    print("FUTBUD FULL DATABASE REFRESH")
+    print("FUTBUD QUICK REFRESH")
     print("=" * 60)
 
     print()
     print(
-        f"{len(IMPORTERS)} import stages "
+        f"{len(UPDATE_STAGES)} update stages "
         f"will be processed."
+    )
+
+    print()
+    print(
+        "Static league/team/player data "
+        "will NOT be refreshed."
     )
 
     total_start = time.time()
 
     completed = []
 
-    for importer in IMPORTERS:
+    for stage in UPDATE_STAGES:
 
-        success = run_importer(
-            importer["name"],
-            importer["module"],
+        success = run_stage(
+            stage["name"],
+            stage["module"],
         )
 
         if not success:
+
             print()
             print(
-                "Database refresh stopped."
+                "Quick refresh stopped."
             )
+
             print(
-                "Fix the failed importer "
-                "and run this script again."
+                "Fix the failed stage "
+                "and run the script again."
             )
 
             print()
@@ -128,27 +151,34 @@ def main():
             )
 
             for name in completed:
-                print(f"  ✓ {name}")
+                print(
+                    f"  ✓ {name}"
+                )
 
             sys.exit(1)
 
         completed.append(
-            importer["name"]
+            stage["name"]
         )
 
     total_elapsed = (
-        time.time() - total_start
+        time.time()
+        - total_start
     )
 
     print()
     print("=" * 60)
     print(
-        "FUTBUD DATABASE REFRESH COMPLETE"
+        "FUTBUD QUICK REFRESH COMPLETE"
     )
     print("=" * 60)
 
+    print()
+
     for name in completed:
-        print(f"✓ {name}")
+        print(
+            f"✓ {name}"
+        )
 
     print()
 
@@ -164,7 +194,8 @@ def main():
 
     print()
     print(
-        "FutBud database is up to date."
+        "Matches, statistics, standings, "
+        "and FutBud ratings are up to date."
     )
 
 

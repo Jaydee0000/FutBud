@@ -2,7 +2,6 @@ import argparse
 import os
 import time
 
-import psycopg
 import requests
 
 from dotenv import load_dotenv
@@ -11,6 +10,7 @@ from football_config import (
     LEAGUE_IDS,
     SEASON,
 )
+from database_config import get_connection
 
 
 load_dotenv()
@@ -25,47 +25,11 @@ BASE_URL = (
 )
 
 
-DB_HOST = os.getenv(
-    "DB_HOST",
-    "localhost",
-)
-
-DB_PORT = os.getenv(
-    "DB_PORT",
-    "5432",
-)
-
-DB_NAME = os.getenv(
-    "DB_NAME",
-    "futbud",
-)
-
-DB_USER = os.getenv(
-    "DB_USER",
-    "futbud_user",
-)
-
-DB_PASSWORD = os.getenv(
-    "DB_PASSWORD",
-)
-
-
 FINISHED_STATUSES = (
     "FT",
     "AET",
     "PEN",
 )
-
-
-def get_connection():
-
-    return psycopg.connect(
-        host=DB_HOST,
-        port=DB_PORT,
-        dbname=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD,
-    )
 
 
 def api_get(
@@ -161,6 +125,9 @@ def save_lineups(
     lineup_data: list,
 ):
 
+    if not lineup_data:
+        return 0
+
     # We replace this match's lineup every
     # time we sync it. This avoids stale data.
     cursor.execute(
@@ -179,6 +146,8 @@ def save_lineups(
         (match_id,),
     )
 
+
+    saved = 0
 
     for lineup in lineup_data:
 
@@ -296,6 +265,10 @@ def save_lineups(
             players=substitutes,
             role="bench",
         )
+
+        saved += len(starters) + len(substitutes)
+
+    return saved
 
 
 def save_lineup_players(
@@ -417,6 +390,11 @@ def save_events(
     events: list,
 ):
 
+    # An empty response commonly means the endpoint is not ready yet.
+    # Keep any previously valid event data in that case.
+    if not events:
+        return 0
+
     cursor.execute(
         """
         DELETE FROM match_events
@@ -522,6 +500,8 @@ def save_events(
             ),
         )
 
+    return len(events)
+
 
 def sync_match(
     connection,
@@ -575,14 +555,14 @@ def sync_match(
 
         with connection.cursor() as cursor:
 
-            save_lineups(
+            lineup_count = save_lineups(
                 cursor=cursor,
                 match_id=match_id,
                 lineup_data=lineup_data,
             )
 
 
-            save_events(
+            event_count = save_events(
                 cursor=cursor,
                 match_id=match_id,
                 events=event_data,
@@ -595,6 +575,11 @@ def sync_match(
         print(
             f"✓ Fixture {match_id} synced."
         )
+
+        return {
+            "lineup_rows": lineup_count,
+            "event_rows": event_count,
+        }
 
 
     except Exception:

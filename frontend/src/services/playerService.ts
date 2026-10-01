@@ -189,8 +189,6 @@ export interface PlayerDashboard {
   recentMatches: PlayerRecentMatch[];
 }
 
-const API_URL = "http://127.0.0.1:8000";
-
 export async function getPlayers(): Promise<Player[]> {
   const response = await fetch(
     `${API_URL}/players`
@@ -221,3 +219,4 @@ export async function getPlayerDashboard(
 
   return response.json();
 }
+import { API_URL } from "../config/api";

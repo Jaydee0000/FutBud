@@ -1,22 +1,15 @@
 import os
 
-import psycopg
 import requests
 
 from dotenv import load_dotenv
+from database_config import get_connection
 
 
 load_dotenv()
 
 
 API_KEY = os.getenv("API_FOOTBALL_KEY")
-
-DB_NAME = os.getenv("DB_NAME")
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-
 
 API_URL = (
     "https://v3.football.api-sports.io"
@@ -29,17 +22,12 @@ from football_config import (
 )
 
 
-def get_connection():
-    return psycopg.connect(
-        dbname=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        host=DB_HOST,
-        port=DB_PORT,
-    )
-
-
-def fetch_standings(league_id):
+def fetch_standings(
+    league_id,
+    season=SEASON,
+    *,
+    raise_on_error=False,
+):
 
     response = requests.get(
         API_URL,
@@ -48,12 +36,15 @@ def fetch_standings(league_id):
         },
         params={
             "league": league_id,
-            "season": SEASON,
+            "season": season,
         },
         timeout=30,
     )
 
     if not response.ok:
+        if raise_on_error:
+            response.raise_for_status()
+
         print(
             f"Failed league {league_id}:",
             response.status_code
@@ -64,6 +55,12 @@ def fetch_standings(league_id):
     data = response.json()
 
     if data.get("errors"):
+        if raise_on_error:
+            raise RuntimeError(
+                f"API-Football error for league {league_id}: "
+                f"{data['errors']}"
+            )
+
         print(
             f"API error for league "
             f"{league_id}:",
@@ -98,7 +95,8 @@ def fetch_standings(league_id):
 
 def save_standings(
     rows,
-    league_id
+    league_id,
+    season=SEASON,
 ):
     connection = get_connection()
     cursor = connection.cursor()
@@ -294,7 +292,7 @@ def save_standings(
             """,
             (
                 league_id,
-                SEASON,
+                season,
                 team_id,
 
                 row.get("rank"),
@@ -343,6 +341,8 @@ def save_standings(
         f"Saved/updated "
         f"{saved} standings rows."
     )
+
+    return saved
 
 
 def main():

@@ -4,10 +4,10 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-import psycopg
 from dotenv import load_dotenv
 
 from football_config import LEAGUE_IDS
+from database_config import get_connection
 
 
 # ============================================================
@@ -82,33 +82,6 @@ def get_args():
 # ============================================================
 # DATABASE
 # ============================================================
-
-def get_connection():
-
-    load_dotenv()
-
-    return psycopg.connect(
-        host=os.getenv(
-            "DB_HOST",
-            "localhost",
-        ),
-        port=os.getenv(
-            "DB_PORT",
-            "5432",
-        ),
-        dbname=os.getenv(
-            "DB_NAME",
-            "futbud",
-        ),
-        user=os.getenv(
-            "DB_USER",
-            "futbud_user",
-        ),
-        password=os.getenv(
-            "DB_PASSWORD",
-        ),
-    )
-
 
 # ============================================================
 # LOAD MATCH-LEVEL PLAYER DATA

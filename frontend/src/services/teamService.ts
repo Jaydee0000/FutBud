@@ -39,7 +39,7 @@ export interface SquadPlayer {
 
 export async function getTeams(): Promise<Team[]> {
   const response = await fetch(
-    "http://127.0.0.1:8000/teams?league_id=39&season=2026"
+    `${API_URL}/teams?league_id=39&season=2026`
   );
 
   if (!response.ok) {
@@ -55,7 +55,7 @@ export async function getTeam(
 ): Promise<Team> {
 
   const response = await fetch(
-    `http://127.0.0.1:8000/teams/${teamId}`
+    `${API_URL}/teams/${teamId}`
   );
 
   if (!response.ok) {
@@ -78,7 +78,7 @@ export async function getTeamSquad(
 ): Promise<SquadPlayer[]> {
 
   const response = await fetch(
-    `http://127.0.0.1:8000/teams/${teamId}/squad?season=${season}`
+    `${API_URL}/teams/${teamId}/squad?season=${season}`
   );
 
   if (!response.ok) {
@@ -87,3 +87,4 @@ export async function getTeamSquad(
 
   return response.json();
 }
+import { API_URL } from "../config/api";

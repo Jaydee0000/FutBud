@@ -2,3 +2,5 @@
 .venv/
 __pycache__/
 *.dump
+node_modules/
+dist/

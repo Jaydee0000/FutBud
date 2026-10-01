@@ -1,7 +1,6 @@
 import argparse
 import os
 
-import psycopg
 import requests
 
 from dotenv import load_dotenv
@@ -10,6 +9,7 @@ from football_config import (
     LEAGUES,
     SEASON,
 )
+from database_config import get_connection
 
 
 load_dotenv()
@@ -17,27 +17,9 @@ load_dotenv()
 
 API_KEY = os.getenv("API_FOOTBALL_KEY")
 
-DB_NAME = os.getenv("DB_NAME")
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-
-
 API_URL = (
     "https://v3.football.api-sports.io/fixtures"
 )
-
-
-def get_connection():
-
-    return psycopg.connect(
-        dbname=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        host=DB_HOST,
-        port=DB_PORT,
-    )
 
 
 def get_args():
@@ -107,12 +89,80 @@ def fetch_matches(
     )
 
 
-def save_matches(matches):
+def fetch_matches_range(
+    league_id,
+    season,
+    start_date,
+    end_date,
+):
+    if not API_KEY:
+        raise RuntimeError(
+            "API_FOOTBALL_KEY is not set."
+        )
+
+    response = requests.get(
+        API_URL,
+        headers={
+            "x-apisports-key": API_KEY,
+        },
+        params={
+            "league": league_id,
+            "season": season,
+            "from": start_date.isoformat(),
+            "to": end_date.isoformat(),
+        },
+        timeout=30,
+    )
+
+    response.raise_for_status()
+    data = response.json()
+
+    if data.get("errors"):
+        raise RuntimeError(
+            f"API-Football error for league {league_id}: "
+            f"{data['errors']}"
+        )
+
+    return data.get("response") or []
+
+
+def fetch_fixture(fixture_id):
+    """Fetch one fixture, including fixtures whose date was rescheduled."""
+
+    if not API_KEY:
+        raise RuntimeError(
+            "API_FOOTBALL_KEY is not set."
+        )
+
+    response = requests.get(
+        API_URL,
+        headers={
+            "x-apisports-key": API_KEY,
+        },
+        params={"id": fixture_id},
+        timeout=30,
+    )
+
+    response.raise_for_status()
+    data = response.json()
+
+    if data.get("errors"):
+        raise RuntimeError(
+            f"API-Football error for fixture {fixture_id}: "
+            f"{data['errors']}"
+        )
+
+    fixtures = data.get("response") or []
+    return fixtures[0] if fixtures else None
+
+
+def save_matches(matches, *, return_ids=False):
 
     connection = get_connection()
     cursor = connection.cursor()
 
     saved = 0
+    changed_ids = []
 
     for item in matches:
 
@@ -295,7 +345,57 @@ def save_matches(matches):
                     EXCLUDED.penalty_home,
 
                 penalty_away =
-                    EXCLUDED.penalty_away;
+                    EXCLUDED.penalty_away
+
+            WHERE ROW(
+                matches.league_id,
+                matches.season,
+                matches.round,
+                matches.match_date,
+                matches.referee,
+                matches.venue_id,
+                matches.venue_name,
+                matches.status_long,
+                matches.status_short,
+                matches.elapsed,
+                matches.home_team_id,
+                matches.away_team_id,
+                matches.home_goals,
+                matches.away_goals,
+                matches.halftime_home,
+                matches.halftime_away,
+                matches.fulltime_home,
+                matches.fulltime_away,
+                matches.extra_time_home,
+                matches.extra_time_away,
+                matches.penalty_home,
+                matches.penalty_away
+            ) IS DISTINCT FROM ROW(
+                EXCLUDED.league_id,
+                EXCLUDED.season,
+                EXCLUDED.round,
+                EXCLUDED.match_date,
+                EXCLUDED.referee,
+                EXCLUDED.venue_id,
+                EXCLUDED.venue_name,
+                EXCLUDED.status_long,
+                EXCLUDED.status_short,
+                EXCLUDED.elapsed,
+                EXCLUDED.home_team_id,
+                EXCLUDED.away_team_id,
+                EXCLUDED.home_goals,
+                EXCLUDED.away_goals,
+                EXCLUDED.halftime_home,
+                EXCLUDED.halftime_away,
+                EXCLUDED.fulltime_home,
+                EXCLUDED.fulltime_away,
+                EXCLUDED.extra_time_home,
+                EXCLUDED.extra_time_away,
+                EXCLUDED.penalty_home,
+                EXCLUDED.penalty_away
+            )
+
+            RETURNING id;
             """,
             (
                 fixture_id,
@@ -336,6 +436,10 @@ def save_matches(matches):
 
         saved += 1
 
+        returned = cursor.fetchone()
+        if returned:
+            changed_ids.append(returned[0])
+
     connection.commit()
 
     cursor.close()
@@ -345,6 +449,11 @@ def save_matches(matches):
         f"Saved/updated "
         f"{saved} matches."
     )
+
+    if return_ids:
+        return saved, changed_ids
+
+    return saved
 
 
 def main():

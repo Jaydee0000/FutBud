@@ -21,7 +21,6 @@ import {
   type MatchTeam,
   type PlayerMatchStat,
   type TeamLineup,
-  type TeamMatchStats,
 } from "../../services/matchDetailsService";
 
 
@@ -772,53 +771,6 @@ function MatchStatsContent({
 
     </div>
   );
-}
-
-
-function getPitchPosition(
-  grid: string | null
-) {
-
-  if (!grid) {
-
-    return {
-      left: 50,
-      top: 50,
-    };
-
-  }
-
-
-  const [
-    rowText,
-    columnText,
-  ] =
-    grid.split(":");
-
-
-  const row =
-    Number(
-      rowText
-    );
-
-  const column =
-    Number(
-      columnText
-    );
-
-
-  const rowCounts:
-    Record<
-      number,
-      number
-    > = {};
-
-
-  return {
-    row,
-    column,
-    rowCounts,
-  };
 }
 
 

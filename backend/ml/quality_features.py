@@ -149,12 +149,12 @@ QUALITY_FEATURES = {
 QUALITY_WEIGHTS = {
 
     "positional_cb": {
-        "pass_accuracy_pct": 0.25,
+        "pass_accuracy_pct": 0.10,
         "duel_win_pct": 0.20,
-        "blocks_per90": 0.15,
+        "blocks_per90": 0.20,
         "interceptions_per90": 0.15,
-        "tackles_per90": 0.10,
-        "dribbled_past_per90": 0.15,
+        "tackles_per90": 0.15,
+        "dribbled_past_per90": 0.20,
     },
 
     "stopper_cb": {
@@ -168,11 +168,11 @@ QUALITY_WEIGHTS = {
 
     "high_intensity_fullback": {
         "duel_win_pct": 0.15,
-        "dribble_success_pct": 0.15,
-        "tackles_per90": 0.20,
+        "dribble_success_pct": 0.10,
+        "tackles_per90": 0.15,
         "interceptions_per90": 0.15,
         "key_passes_per90": 0.20,
-        "assists_per90": 0.15,
+        "assists_per90": 0.25,
     },
 
     "creative_fullback": {

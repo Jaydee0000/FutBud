@@ -269,8 +269,7 @@ export interface PlayerDashboard {
 }
 
 
-const API =
-  "http://127.0.0.1:8000";
+const API = API_URL;
 
 
 export async function getPlayerDashboard(
@@ -311,3 +310,4 @@ export async function getPlayerDashboard(
 
   return response.json();
 }
+import { API_URL } from "../config/api";

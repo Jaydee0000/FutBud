@@ -28,7 +28,7 @@ export async function getLeaders(
 ): Promise<Leaderboards> {
 
   const response = await fetch(
-    `http://127.0.0.1:8000/leaders?season=${season}&limit=5`
+    `${API_URL}/leaders?season=${season}&limit=5`
   );
 
   if (!response.ok) {
@@ -39,3 +39,4 @@ export async function getLeaders(
 
   return response.json();
 }
+import { API_URL } from "../config/api";

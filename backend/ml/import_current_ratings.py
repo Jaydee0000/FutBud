@@ -4,8 +4,8 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-import psycopg
 from dotenv import load_dotenv
+from database_config import get_connection
 
 
 DEFAULT_SEASON = 2026
@@ -43,33 +43,6 @@ def get_args():
 # ============================================================
 # DATABASE
 # ============================================================
-
-def get_connection():
-
-    load_dotenv()
-
-    return psycopg.connect(
-        host=os.getenv(
-            "DB_HOST",
-            "localhost",
-        ),
-        port=os.getenv(
-            "DB_PORT",
-            "5432",
-        ),
-        dbname=os.getenv(
-            "DB_NAME",
-            "futbud",
-        ),
-        user=os.getenv(
-            "DB_USER",
-            "futbud_user",
-        ),
-        password=os.getenv(
-            "DB_PASSWORD",
-        ),
-    )
-
 
 # ============================================================
 # PATHS
@@ -901,6 +874,19 @@ def main():
                     season,
                     reference_season,
                 )
+            )
+
+
+            # Metric sets vary by archetype. Replace the current
+            # season's derived metrics inside this transaction so
+            # obsolete features from an earlier assignment cannot
+            # remain visible alongside the new inference output.
+            cursor.execute(
+                """
+                DELETE FROM player_season_rating_metrics
+                WHERE season = %s;
+                """,
+                (season,),
             )
 
 

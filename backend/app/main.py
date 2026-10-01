@@ -1,16 +1,12 @@
 import os
+
 import requests
 
 from psycopg.rows import dict_row
 
-from dotenv import load_dotenv
-
-
-
-
-
-import psycopg
 from datetime import date
+from database_config import get_connection
+from runtime_config import get_allowed_origins
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -22,10 +18,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ],
+    allow_origins=get_allowed_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -1749,15 +1742,6 @@ def get_teams(
     return teams
 
 
-def get_connection():
-    return psycopg.connect(
-        dbname="futbud",
-        user="futbud_user",
-        password="Adid@s1738",
-        host="localhost",
-        port="5432",
-    )
-
 def get_stat_leaders(
     cursor,
     stat_column: str,
@@ -2147,6 +2131,27 @@ def get_leaders(
 def home():
     return {
         "message": "FutBud API is running"
+    }
+
+
+@app.get("/health")
+def health():
+    """Report API and database readiness without exposing connection details."""
+
+    try:
+        with get_connection() as connection:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT 1;")
+                cursor.fetchone()
+    except Exception as error:
+        raise HTTPException(
+            status_code=503,
+            detail="Database unavailable",
+        ) from error
+
+    return {
+        "status": "ok",
+        "database": "connected",
     }
 
 

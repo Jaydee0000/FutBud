@@ -51,8 +51,7 @@ export interface PlayerRankingsResponse {
 }
 
 
-const API =
-  "http://127.0.0.1:8000";
+const API = API_URL;
 
 
 export async function getPlayerRankings(
@@ -90,3 +89,4 @@ export async function getPlayerRankings(
 
   return response.json();
 }
+import { API_URL } from "../config/api";

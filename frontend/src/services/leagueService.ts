@@ -1,6 +1,7 @@
 import type {
   MatchTeam,
 } from "./matchService";
+import { API_URL } from "../config/api";
 
 
 export interface League {
@@ -89,14 +90,10 @@ export interface LeagueLeaders {
 }
 
 
-const API =
-  "http://127.0.0.1:8000";
+const API = API_URL;
 
 
-/*
-  Used by Home.tsx to show
-  all tracked leagues.
-*/
+
 export async function getLeagues(
   season = 2026
 ): Promise<League[]> {
