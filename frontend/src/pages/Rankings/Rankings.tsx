@@ -15,11 +15,18 @@ import {
   type RankedFutBudPlayer,
 } from "../../services/rankingService.ts";
 
+import ArchetypeRankings from "./ArchetypeRankings.tsx";
+
 
 type RankingLimit =
   25
   | 50
   | 100;
+
+
+type RankingTab =
+  | "overall"
+  | "archetypes";
 
 
 function initials(
@@ -204,6 +211,9 @@ function Rankings() {
   const [limit, setLimit] =
     useState<RankingLimit>(25);
 
+  const [activeTab, setActiveTab] =
+    useState<RankingTab>("overall");
+
   const season = 2026;
 
 
@@ -343,6 +353,95 @@ function Rankings() {
         </div>
 
       </div>
+
+
+      <nav
+        className="rankings-tabs"
+        aria-label="Ranking views"
+      >
+        {([
+          ["overall", "Overall"],
+          ["archetypes", "Archetypes"],
+        ] as [RankingTab, string][]).map(([key, label]) => (
+          <button
+            type="button"
+            key={key}
+            className={activeTab === key ? "active" : ""}
+            aria-pressed={activeTab === key}
+            onClick={() => setActiveTab(key)}
+          >
+            {label}
+          </button>
+        ))}
+      </nav>
+
+
+      {activeTab === "archetypes" ? (
+
+        <ArchetypeRankings season={season} />
+
+      ) : (
+
+        <>
+
+
+      {/* =========================================
+          TOP BY POSITION
+      ========================================== */}
+
+      <section className="position-section position-section-first">
+
+        <div className="rankings-subheading">
+
+          <div>
+            <span className="rankings-kicker">
+              Position Leaders
+            </span>
+
+            <h2>
+              Top by Position
+            </h2>
+          </div>
+
+          <p>
+            Highest-rated players in each broad FutBud position group.
+          </p>
+
+        </div>
+
+
+        <div className="position-ranking-grid">
+
+          <PositionCard
+            title="Forwards"
+            players={
+              rankings
+                .byPosition
+                .forwards
+            }
+          />
+
+          <PositionCard
+            title="Midfielders"
+            players={
+              rankings
+                .byPosition
+                .midfielders
+            }
+          />
+
+          <PositionCard
+            title="Defenders"
+            players={
+              rankings
+                .byPosition
+                .defenders
+            }
+          />
+
+        </div>
+
+      </section>
 
 
       {/* =========================================
@@ -516,65 +615,6 @@ function Rankings() {
 
 
       {/* =========================================
-          TOP BY POSITION
-      ========================================== */}
-
-      <section className="position-section">
-
-        <div className="rankings-subheading">
-
-          <div>
-            <span className="rankings-kicker">
-              Position Leaders
-            </span>
-
-            <h2>
-              Top by Position
-            </h2>
-          </div>
-
-          <p>
-            Highest-rated players in each broad FutBud position group.
-          </p>
-
-        </div>
-
-
-        <div className="position-ranking-grid">
-
-          <PositionCard
-            title="Forwards"
-            players={
-              rankings
-                .byPosition
-                .forwards
-            }
-          />
-
-          <PositionCard
-            title="Midfielders"
-            players={
-              rankings
-                .byPosition
-                .midfielders
-            }
-          />
-
-          <PositionCard
-            title="Defenders"
-            players={
-              rankings
-                .byPosition
-                .defenders
-            }
-          />
-
-        </div>
-
-      </section>
-
-
-      {/* =========================================
           RATING EXPLANATION
       ========================================== */}
 
@@ -598,6 +638,10 @@ function Rankings() {
         </p>
 
       </section>
+
+        </>
+
+      )}
 
     </main>
   );

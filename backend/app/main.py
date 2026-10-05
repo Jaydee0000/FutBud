@@ -12,6 +12,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import HTTPException
 
+from app.archetype_catalog import (
+    ARCHETYPE_GROUPS,
+    ARCHETYPE_METADATA,
+    POSITION_GROUP_DESCRIPTIONS,
+    archetype_group,
+    metric_display_name,
+)
+
 
 app = FastAPI()
 
@@ -5142,6 +5150,381 @@ def get_player_rankings(
 
         cursor.close()
         connection.close()
+
+
+# ==================================================
+# FUTBUD ARCHETYPE RANKINGS
+# ==================================================
+
+@app.get("/rankings/archetypes")
+def get_ranking_archetypes(
+    season: int = 2026,
+):
+
+    connection = get_connection()
+    cursor = connection.cursor(
+        row_factory=dict_row
+    )
+
+    try:
+        cursor.execute(
+            """
+            SELECT
+                archetype_key,
+                COUNT(*) FILTER (
+                    WHERE futbud_rating IS NOT NULL
+                ) AS player_count
+            FROM player_season_ratings
+            WHERE season = %s
+            GROUP BY archetype_key;
+            """,
+            (season,),
+        )
+
+        counts = {
+            row["archetype_key"]:
+                row["player_count"]
+            for row in cursor.fetchall()
+        }
+
+        groups = []
+
+        for group in ARCHETYPE_GROUPS:
+            archetypes = []
+
+            for archetype_key in group["archetypes"]:
+                metadata = ARCHETYPE_METADATA[archetype_key]
+
+                archetypes.append({
+                    "key": archetype_key,
+                    "name": metadata["name"],
+                    "shortName": metadata["shortName"],
+                    "position": group["position"],
+                    "description": metadata["description"],
+                    "playerCount": counts.get(
+                        archetype_key,
+                        0,
+                    ),
+                })
+
+            groups.append({
+                "key": group["key"],
+                "name": group["name"],
+                "position": group["position"],
+                "archetypes": archetypes,
+            })
+
+        return {
+            "season": season,
+            "groups": groups,
+        }
+
+    finally:
+        cursor.close()
+        connection.close()
+
+
+@app.get("/rankings/archetypes/{archetype_key}")
+def get_archetype_rankings(
+    archetype_key: str,
+    season: int = 2026,
+):
+
+    group = next(
+        (
+            candidate
+            for candidate in ARCHETYPE_GROUPS
+            if archetype_key
+            == f"all_{candidate['key']}"
+        ),
+        None,
+    )
+    is_position_group = group is not None
+
+    if is_position_group:
+        metadata = {
+            "name": f"All {group['name']}",
+            "shortName": f"All {group['name']}",
+            "description": POSITION_GROUP_DESCRIPTIONS[
+                group["position"]
+            ],
+        }
+    else:
+        metadata = ARCHETYPE_METADATA.get(
+            archetype_key
+        )
+        group = archetype_group(
+            archetype_key
+        )
+
+    if metadata is None or group is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Unknown FutBud v1 archetype.",
+        )
+
+    connection = get_connection()
+    cursor = connection.cursor(
+        row_factory=dict_row
+    )
+
+    try:
+        player_filter = (
+            "psr.position = %s"
+            if is_position_group
+            else "psr.archetype_key = %s"
+        )
+        player_filter_value = (
+            group["position"]
+            if is_position_group
+            else archetype_key
+        )
+
+        cursor.execute(
+            f"""
+            SELECT
+                psr.player_id,
+                p.name AS player_name,
+                p.photo_url AS player_photo_url,
+                psr.position,
+                psr.minutes,
+                psr.appearances,
+                psr.starts,
+                psr.futbud_rating,
+                psr.role_rating_percentile,
+                psr.quality_status,
+                t.id AS team_id,
+                t.name AS team_name,
+                t.logo_url AS team_logo_url,
+                l.id AS league_id,
+                l.name AS league_name,
+                l.logo_url AS league_logo_url
+            FROM player_season_ratings psr
+            JOIN players p
+                ON p.id = psr.player_id
+            LEFT JOIN teams t
+                ON t.id = psr.latest_team_id
+            LEFT JOIN leagues l
+                ON l.id = psr.primary_league_id
+            WHERE psr.season = %s
+              AND {player_filter}
+              AND psr.futbud_rating IS NOT NULL
+            ORDER BY
+                psr.futbud_rating DESC,
+                psr.role_rating_percentile DESC,
+                p.name ASC;
+            """,
+            (
+                season,
+                player_filter_value,
+            ),
+        )
+
+        player_rows = cursor.fetchall()
+
+        metric_filter = (
+            "archetype_key = ANY(%s)"
+            if is_position_group
+            else "archetype_key = %s"
+        )
+        metric_filter_value = (
+            list(group["archetypes"])
+            if is_position_group
+            else archetype_key
+        )
+
+        cursor.execute(
+            f"""
+            SELECT
+                player_id,
+                feature,
+                raw_value,
+                historical_percentile,
+                weight
+            FROM player_season_rating_metrics
+            WHERE season = %s
+              AND {metric_filter}
+            ORDER BY player_id, feature;
+            """,
+            (
+                season,
+                metric_filter_value,
+            ),
+        )
+
+        metric_rows = cursor.fetchall()
+        metrics_by_player = {}
+        weights_by_feature = {}
+
+        for row in metric_rows:
+            feature = row["feature"]
+            weight = (
+                float(row["weight"])
+                if row["weight"] is not None
+                else None
+            )
+            percentile = (
+                float(row["historical_percentile"])
+                if row["historical_percentile"] is not None
+                else None
+            )
+
+            if feature not in weights_by_feature:
+                weights_by_feature[feature] = weight
+
+            metric = {
+                "key": feature,
+                "name": metric_display_name(feature),
+                "value": (
+                    float(row["raw_value"])
+                    if row["raw_value"] is not None
+                    else None
+                ),
+                "percentile": percentile,
+                "weight": weight,
+            }
+
+            metrics_by_player.setdefault(
+                row["player_id"],
+                [],
+            ).append(metric)
+
+        rating_metrics = [] if is_position_group else [
+            {
+                "key": feature,
+                "name": metric_display_name(feature),
+                "weight": weight,
+            }
+            for feature, weight in sorted(
+                weights_by_feature.items(),
+                key=lambda item: (
+                    -(
+                        item[1]
+                        if item[1] is not None
+                        else -1
+                    ),
+                    item[0],
+                ),
+            )
+        ]
+
+        players = []
+
+        for rank, row in enumerate(
+            player_rows,
+            start=1,
+        ):
+            player_metrics = metrics_by_player.get(
+                row["player_id"],
+                [],
+            )
+
+            eligible_metrics = [
+                metric
+                for metric in player_metrics
+                if metric["percentile"] is not None
+                and metric["weight"] is not None
+            ]
+
+            top_metrics = sorted(
+                eligible_metrics,
+                key=lambda metric: (
+                    -(
+                        metric["percentile"]
+                        * metric["weight"]
+                    ),
+                    -metric["percentile"],
+                    metric["name"],
+                ),
+            )[:3]
+
+            players.append({
+                "rank": rank,
+                "id": row["player_id"],
+                "name": row["player_name"],
+                "photoUrl": row["player_photo_url"],
+                "position": row["position"],
+                "minutes": row["minutes"],
+                "appearances": row["appearances"],
+                "starts": row["starts"],
+                "rating": (
+                    float(row["futbud_rating"])
+                    if row["futbud_rating"] is not None
+                    else None
+                ),
+                "percentile": (
+                    float(row["role_rating_percentile"])
+                    if row["role_rating_percentile"] is not None
+                    else None
+                ),
+                "status": row["quality_status"],
+                "team": (
+                    {
+                        "id": row["team_id"],
+                        "name": row["team_name"],
+                        "logoUrl": row["team_logo_url"],
+                    }
+                    if row["team_id"] is not None
+                    else None
+                ),
+                "league": (
+                    {
+                        "id": row["league_id"],
+                        "name": row["league_name"],
+                        "logoUrl": row["league_logo_url"],
+                    }
+                    if row["league_id"] is not None
+                    else None
+                ),
+                "topMetrics": top_metrics,
+            })
+
+        return {
+            "season": season,
+            "archetype": {
+                "key": archetype_key,
+                "name": metadata["name"],
+                "shortName": metadata["shortName"],
+                "position": group["position"],
+                "positionGroup": group["name"],
+                "description": metadata["description"],
+                "playerCount": len(players),
+                "metrics": rating_metrics,
+            },
+            "players": players,
+        }
+
+    finally:
+        cursor.close()
+        connection.close()
+
+
+@app.get("/rankings/archetypes/positions/{position}")
+def get_position_group_archetype_rankings(
+    position: str,
+    season: int = 2026,
+):
+    normalized_position = position.upper()
+    group = next(
+        (
+            candidate
+            for candidate in ARCHETYPE_GROUPS
+            if candidate["position"]
+            == normalized_position
+        ),
+        None,
+    )
+
+    if group is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Unknown FutBud position group.",
+        )
+
+    return get_archetype_rankings(
+        f"all_{group['key']}",
+        season,
+    )
 
 
 # ==========================================================
